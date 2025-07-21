@@ -135,7 +135,7 @@ function App() {
         idioma_origen: formData.idioma_origen,
         idioma_destino: formData.idioma_destino,
         tiempo_procesamiento: formData.tiempo_procesamiento,
-        formato_deseado: formData.formato_deseado,
+        formato_deseado: [formData.formato_deseado],
         instrucciones: formData.instrucciones || null,
         fecha_solicitud: formData.fecha_solicitud,
         archivos_urls: archivosUrls.length > 0 ? archivosUrls : null

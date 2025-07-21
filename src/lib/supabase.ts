@@ -21,7 +21,7 @@ export type Database = {
           idioma_origen: string
           idioma_destino: string
           tiempo_procesamiento: string
-          formato_deseado: string
+          formato_deseado: string[]
           instrucciones: string | null
           fecha_solicitud: string
           archivos_urls: string[] | null
@@ -35,7 +35,7 @@ export type Database = {
           idioma_origen: string
           idioma_destino: string
           tiempo_procesamiento: string
-          formato_deseado: string
+          formato_deseado: string[]
           instrucciones?: string | null
           fecha_solicitud: string
           archivos_urls?: string[] | null
@@ -49,7 +49,7 @@ export type Database = {
           idioma_origen?: string
           idioma_destino?: string
           tiempo_procesamiento?: string
-          formato_deseado?: string
+          formato_deseado?: string[]
           instrucciones?: string | null
           fecha_solicitud?: string
           archivos_urls?: string[] | null
