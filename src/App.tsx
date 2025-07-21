@@ -101,36 +101,30 @@ function App() {
 
       console.log('Enviando datos:', formData);
       
-      // Crear FormData para enviar archivos
-      const formDataToSend = new FormData();
-      
-      // Agregar todos los campos de texto
-      formDataToSend.append('nombre', formData.nombre);
-      formDataToSend.append('telefono', formData.telefono);
-      formDataToSend.append('correo', formData.correo);
-      formDataToSend.append('idioma_origen', formData.idioma_origen);
-      formDataToSend.append('idioma_destino', formData.idioma_destino);
-      formDataToSend.append('tiempo_procesamiento', formData.tiempo_procesamiento);
-      formDataToSend.append('formato_deseado', formData.formato_deseado);
-      formDataToSend.append('instrucciones', formData.instrucciones);
-      formDataToSend.append('fecha_solicitud', formData.fecha_solicitud);
-      
-      // Agregar información sobre archivos
-      formDataToSend.append('cantidad_archivos', formData.archivos.length.toString());
-      
-      // Agregar archivos individualmente
-      formData.archivos.forEach((file, index) => {
-        formDataToSend.append(`archivo_${index}`, file, file.name);
-      });
+      // Crear objeto JSON para enviar
+      const dataToSend = {
+        nombre: formData.nombre,
+        telefono: formData.telefono,
+        correo: formData.correo,
+        idioma_origen: formData.idioma_origen,
+        idioma_destino: formData.idioma_destino,
+        tiempo_procesamiento: formData.tiempo_procesamiento,
+        formato_deseado: formData.formato_deseado,
+        instrucciones: formData.instrucciones,
+        fecha_solicitud: formData.fecha_solicitud,
+        cantidad_archivos: formData.archivos.length,
+        nombres_archivos: formData.archivos.map(file => file.name)
+      };
 
       console.log('FormData creado, enviando...');
 
       const response = await fetch('/api/webhook/b1a77e5e-14a9-4a7b-a01c-6d12354c5e3d', {
         method: 'POST',
         headers: {
-          'Authorization': `Basic ${btoa('Triexpert:20391793_Junio')}`
+          'Authorization': `Basic ${btoa('Triexpert:20391793_Junio')}`,
+          'Content-Type': 'application/json'
         },
-        body: formDataToSend
+        body: JSON.stringify(dataToSend)
       });
 
       console.log('Respuesta recibida:', response.status, response.statusText);
