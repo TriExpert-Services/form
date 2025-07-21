@@ -125,9 +125,12 @@ function App() {
       
       const response = await fetch(apiUrl, {
         method: 'POST',
+        mode: 'cors',
         headers: {
           'Authorization': `Basic ${btoa('Triexpert:20391793_Junio')}`,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Origin': window.location.origin
         },
         body: JSON.stringify(dataToSend)
       });
