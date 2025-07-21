@@ -118,7 +118,12 @@ function App() {
 
       console.log('FormData creado, enviando...');
 
-      const response = await fetch('/api/webhook/b1a77e5e-14a9-4a7b-a01c-6d12354c5e3d', {
+      // Use direct URL in production, proxy URL in development
+      const apiUrl = import.meta.env.PROD 
+        ? 'https://app.n8n-tech.cloud/webhook/b1a77e5e-14a9-4a7b-a01c-6d12354c5e3d'
+        : '/api/webhook/b1a77e5e-14a9-4a7b-a01c-6d12354c5e3d';
+      
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Authorization': `Basic ${btoa('Triexpert:20391793_Junio')}`,
