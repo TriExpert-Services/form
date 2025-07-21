@@ -101,20 +101,26 @@ function App() {
 
       console.log('Enviando datos:', formData);
       
-      // Crear objeto JSON para enviar
-      const dataToSend = {
-        nombre: formData.nombre,
-        telefono: formData.telefono,
-        correo: formData.correo,
-        idioma_origen: formData.idioma_origen,
-        idioma_destino: formData.idioma_destino,
-        tiempo_procesamiento: formData.tiempo_procesamiento,
-        formato_deseado: formData.formato_deseado,
-        instrucciones: formData.instrucciones,
-        fecha_solicitud: formData.fecha_solicitud,
-        cantidad_archivos: formData.archivos.length,
-        nombres_archivos: formData.archivos.map(file => file.name)
-      };
+      // Crear FormData para enviar archivos binarios
+      const formDataToSend = new FormData();
+      
+      // Agregar campos del formulario
+      formDataToSend.append('nombre', formData.nombre);
+      formDataToSend.append('telefono', formData.telefono);
+      formDataToSend.append('correo', formData.correo);
+      formDataToSend.append('idioma_origen', formData.idioma_origen);
+      formDataToSend.append('idioma_destino', formData.idioma_destino);
+      formDataToSend.append('tiempo_procesamiento', formData.tiempo_procesamiento);
+      formDataToSend.append('formato_deseado', formData.formato_deseado);
+      formDataToSend.append('instrucciones', formData.instrucciones);
+      formDataToSend.append('fecha_solicitud', formData.fecha_solicitud);
+      
+      // Agregar archivos como binary data
+      formData.archivos.forEach((file, index) => {
+        formDataToSend.append(`archivo_${index}`, file, file.name);
+      });
+      
+      formDataToSend.append('cantidad_archivos', formData.archivos.length.toString());
 
       console.log('FormData creado, enviando...');
 
@@ -128,11 +134,10 @@ function App() {
         mode: 'cors',
         headers: {
           'Authorization': `Basic ${btoa('Triexpert:20391793_Junio')}`,
-          'Content-Type': 'application/json',
           'Accept': 'application/json',
           'Origin': window.location.origin
         },
-        body: JSON.stringify(dataToSend)
+        body: formDataToSend
       });
 
       console.log('Respuesta recibida:', response.status, response.statusText);
