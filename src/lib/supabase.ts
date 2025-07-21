@@ -24,7 +24,7 @@ export type Database = {
           formato_deseado: string
           instrucciones: string | null
           fecha_solicitud: string
-          archivos_urls: string | null
+          archivos_urls: string[] | null
           creado_en: string
         }
         Insert: {
@@ -38,7 +38,7 @@ export type Database = {
           formato_deseado: string
           instrucciones?: string | null
           fecha_solicitud: string
-          archivos_urls?: string | null
+          archivos_urls?: string[] | null
           creado_en?: string
         }
         Update: {
@@ -52,7 +52,7 @@ export type Database = {
           formato_deseado?: string
           instrucciones?: string | null
           fecha_solicitud?: string
-          archivos_urls?: string | null
+          archivos_urls?: string[] | null
           creado_en?: string
         }
       }

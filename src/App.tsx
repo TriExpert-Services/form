@@ -101,7 +101,7 @@ function App() {
       }
 
       // Crear lista de nombres de archivos para guardar en Supabase
-      const archivosNombres = formData.archivos.map(file => file.name).join(', ');
+      const archivosNombres = formData.archivos.map(file => file.name);
       
       // Preparar datos para Supabase
       const solicitudData = {
