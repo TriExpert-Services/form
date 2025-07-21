@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Send, Upload, Calendar, Globe, Phone, Mail, Clock, FileText, MessageSquare, User } from 'lucide-react';
+import { supabase } from './lib/supabase';
 
 interface FormData {
   nombre: string;
@@ -99,7 +100,38 @@ function App() {
         throw new Error(`Campos requeridos faltantes: ${missingFields.join(', ')}`);
       }
 
-      console.log('Enviando datos:', formData);
+      // Crear lista de nombres de archivos para guardar en Supabase
+      const archivosNombres = formData.archivos.map(file => file.name).join(', ');
+      
+      // Preparar datos para Supabase
+      const solicitudData = {
+        nombre: formData.nombre,
+        telefono: formData.telefono,
+        correo: formData.correo,
+        idioma_origen: formData.idioma_origen,
+        idioma_destino: formData.idioma_destino,
+        tiempo_procesamiento: formData.tiempo_procesamiento,
+        formato_deseado: formData.formato_deseado,
+        instrucciones: formData.instrucciones || null,
+        fecha_solicitud: formData.fecha_solicitud,
+        archivos_urls: archivosNombres || null
+      };
+
+      console.log('Guardando en Supabase:', solicitudData);
+      
+      // Guardar en Supabase
+      const { data: supabaseData, error: supabaseError } = await supabase
+        .from('solicitudes_traduccion')
+        .insert(solicitudData)
+        .select()
+        .single();
+
+      if (supabaseError) {
+        console.error('Error de Supabase:', supabaseError);
+        throw new Error(`Error al guardar en base de datos: ${supabaseError.message}`);
+      }
+
+      console.log('Guardado exitosamente en Supabase:', supabaseData);
       
       // Crear FormData para enviar archivos binarios
       const formDataToSend = new FormData();
@@ -115,6 +147,9 @@ function App() {
       formDataToSend.append('instrucciones', formData.instrucciones);
       formDataToSend.append('fecha_solicitud', formData.fecha_solicitud);
       
+      // Agregar el ID de Supabase para referencia
+      formDataToSend.append('supabase_id', supabaseData.id);
+      
       // Agregar archivos como binary data
       formData.archivos.forEach((file, index) => {
         formDataToSend.append(`archivo_${index}`, file, file.name);
@@ -122,7 +157,7 @@ function App() {
       
       formDataToSend.append('cantidad_archivos', formData.archivos.length.toString());
 
-      console.log('FormData creado, enviando...');
+      console.log('FormData creado, enviando a n8n...');
 
       // Use direct URL in production, proxy URL in development
       const apiUrl = import.meta.env.PROD 
@@ -140,15 +175,15 @@ function App() {
         body: formDataToSend
       });
 
-      console.log('Respuesta recibida:', response.status, response.statusText);
+      console.log('Respuesta de n8n recibida:', response.status, response.statusText);
       
       // Intentar leer la respuesta como texto primero
       const responseText = await response.text();
-      console.log('Contenido de respuesta:', responseText);
+      console.log('Contenido de respuesta n8n:', responseText);
 
       if (response.ok) {
         setSubmitStatus('success');
-        setSubmitMessage('¡Solicitud enviada exitosamente! Te contactaremos pronto.');
+        setSubmitMessage('¡Solicitud guardada y enviada exitosamente! Te contactaremos pronto.');
         
         // Limpiar formulario
         setFormData({
@@ -168,7 +203,26 @@ function App() {
         const fileInput = document.getElementById('archivos') as HTMLInputElement;
         if (fileInput) fileInput.value = '';
       } else {
-        throw new Error(`Error del servidor: ${response.status} ${response.statusText}. Respuesta: ${responseText}`);
+        // Si el webhook falla pero Supabase funcionó, mostrar mensaje parcial de éxito
+        setSubmitStatus('success');
+        setSubmitMessage('Solicitud guardada exitosamente. Hubo un problema menor con la notificación, pero recibirás respuesta pronto.');
+        
+        // Limpiar formulario igual
+        setFormData({
+          nombre: '',
+          telefono: '',
+          correo: '',
+          idioma_origen: '',
+          idioma_destino: '',
+          tiempo_procesamiento: '',
+          formato_deseado: '',
+          instrucciones: '',
+          archivos: [],
+          fecha_solicitud: new Date().toISOString().split('T')[0]
+        });
+        
+        const fileInput = document.getElementById('archivos') as HTMLInputElement;
+        if (fileInput) fileInput.value = '';
       }
     } catch (error) {
       console.error('Error detallado:', error);
