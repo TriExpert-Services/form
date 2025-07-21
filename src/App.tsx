@@ -100,8 +100,32 @@ function App() {
         throw new Error(`Campos requeridos faltantes: ${missingFields.join(', ')}`);
       }
 
-      // Crear lista de nombres de archivos para guardar en Supabase
-      const archivosNombres = formData.archivos.map(file => file.name);
+      // Subir archivos a Supabase Storage y obtener URLs públicas
+      const archivosUrls: string[] = [];
+      
+      for (let i = 0; i < formData.archivos.length; i++) {
+        const archivo = formData.archivos[i];
+        const fileName = `${Date.now()}-${i}-${archivo.name}`;
+        
+        // Subir archivo a Supabase Storage
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from('solicitudes-traduccion-files')
+          .upload(fileName, archivo);
+          
+        if (uploadError) {
+          console.error('Error subiendo archivo:', uploadError);
+          throw new Error(`Error subiendo archivo ${archivo.name}: ${uploadError.message}`);
+        }
+        
+        // Obtener URL pública
+        const { data: urlData } = supabase.storage
+          .from('solicitudes-traduccion-files')
+          .getPublicUrl(fileName);
+          
+        if (urlData?.publicUrl) {
+          archivosUrls.push(urlData.publicUrl);
+        }
+      }
       
       // Preparar datos para Supabase
       const solicitudData = {
@@ -114,7 +138,7 @@ function App() {
         formato_deseado: formData.formato_deseado,
         instrucciones: formData.instrucciones || null,
         fecha_solicitud: formData.fecha_solicitud,
-        archivos_urls: archivosNombres || null
+        archivos_urls: archivosUrls.length > 0 ? archivosUrls : null
       };
 
       console.log('Guardando en Supabase:', solicitudData);
