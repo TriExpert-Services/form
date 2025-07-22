@@ -215,15 +215,36 @@ function App() {
 
       console.log('Respuesta de n8n recibida:', response.status, response.statusText);
       
-      // Intentar leer la respuesta como texto primero
-      const responseText = await response.text();
-      console.log('Contenido de respuesta n8n:', responseText);
+      if (!response.ok) {
+        throw new Error(`Error en el servidor: ${response.status} ${response.statusText}`);
+      }
 
-      if (response.ok) {
+      // Leer la respuesta como JSON para obtener el link de pago
+      const responseData = await response.json();
+      console.log('Respuesta de n8n:', responseData);
+
+      // Verificar si hay un link de pago en la respuesta
+      if (responseData.payment_link || responseData.paymentLink || responseData.link) {
+        const paymentLink = responseData.payment_link || responseData.paymentLink || responseData.link;
+        
+        console.log('Link de pago recibido:', paymentLink);
+        
+        setSubmitStatus('success');
+        setSubmitMessage('¡Solicitud procesada exitosamente! Redirigiendo al pago...');
+        
+        // Esperar un momento para que el usuario vea el mensaje y luego redirigir
+        setTimeout(() => {
+          window.location.href = paymentLink;
+        }, 2000);
+        
+      } else {
+        // Si no hay link de pago, mostrar mensaje de éxito normal
         setSubmitStatus('success');
         setSubmitMessage('¡Solicitud guardada y enviada exitosamente! Te contactaremos pronto.');
-        
-        // Limpiar formulario
+      }
+      
+      // Limpiar formulario después del éxito
+      setTimeout(() => {
         setFormData({
           nombre: '',
           telefono: '',
@@ -242,30 +263,7 @@ function App() {
         // Limpiar input de archivos
         const fileInput = document.getElementById('archivos') as HTMLInputElement;
         if (fileInput) fileInput.value = '';
-      } else {
-        // Si el webhook falla pero Supabase funcionó, mostrar mensaje parcial de éxito
-        setSubmitStatus('success');
-        setSubmitMessage('Solicitud guardada exitosamente. Hubo un problema menor con la notificación, pero recibirás respuesta pronto.');
-        
-        // Limpiar formulario igual
-        setFormData({
-          nombre: '',
-          telefono: '',
-          correo: '',
-          idioma_origen: '',
-          idioma_destino: '',
-          tiempo_procesamiento: '',
-          formato_deseado: '',
-          numero_hojas: '',
-          tipo_documento: '',
-          instrucciones: '',
-          archivos: [],
-          fecha_solicitud: new Date().toISOString().split('T')[0]
-        });
-        
-        const fileInput = document.getElementById('archivos') as HTMLInputElement;
-        if (fileInput) fileInput.value = '';
-      }
+      }, 3000); // Limpiar después de 3 segundos
     } catch (error) {
       console.error('Error detallado:', error);
       setSubmitStatus('error');
@@ -673,7 +671,7 @@ function App() {
                 {isSubmitting ? (
                   <>
                     <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-3"></div>
-                    <span className="relative z-10">Enviando solicitud...</span>
+                    <span className="relative z-10">Procesando solicitud...</span>
                   </>
                 ) : (
                   <>
