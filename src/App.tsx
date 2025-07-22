@@ -219,8 +219,21 @@ function App() {
         throw new Error(`Error en el servidor: ${response.status} ${response.statusText}`);
       }
 
-      // Leer la respuesta como JSON para obtener el link de pago
-      const responseData = await response.json();
+      // Verificar si la respuesta contiene JSON antes de parsear
+      let responseData = {};
+      const contentType = response.headers.get('content-type');
+      
+      if (contentType && contentType.includes('application/json')) {
+        try {
+          responseData = await response.json();
+        } catch (jsonError) {
+          console.warn('Error parsing JSON response:', jsonError);
+          responseData = {};
+        }
+      } else {
+        console.log('Response is not JSON, treating as successful without payment link');
+      }
+      
       console.log('Respuesta de n8n:', responseData);
 
       // Verificar si hay un link de pago en la respuesta
