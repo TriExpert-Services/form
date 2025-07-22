@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, Upload, Calendar, Globe, Phone, Mail, Clock, FileText, MessageSquare, User } from 'lucide-react';
+import { Send, Upload, Calendar, Globe, Phone, Mail, Clock, FileText, MessageSquare, User, CheckCircle, AlertCircle } from 'lucide-react';
 import { supabase } from './lib/supabase';
 
 interface FormData {
@@ -36,45 +36,46 @@ function App() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null);
   const [submitMessage, setSubmitMessage] = useState('');
+  const [focusedField, setFocusedField] = useState<string | null>(null);
 
   const idiomas = [
-    { value: 'es', label: 'Español' },
-    { value: 'en', label: 'Inglés' },
-    { value: 'fr', label: 'Francés' },
-    { value: 'de', label: 'Alemán' },
-    { value: 'it', label: 'Italiano' },
-    { value: 'pt', label: 'Portugués' },
-    { value: 'zh', label: 'Chino Mandarín' },
-    { value: 'ja', label: 'Japonés' },
-    { value: 'ko', label: 'Coreano' },
-    { value: 'ar', label: 'Árabe' },
-    { value: 'ru', label: 'Ruso' },
-    { value: 'hi', label: 'Hindi' }
+    { value: 'es', label: 'Español', flag: '🇪🇸' },
+    { value: 'en', label: 'Inglés', flag: '🇺🇸' },
+    { value: 'fr', label: 'Francés', flag: '🇫🇷' },
+    { value: 'de', label: 'Alemán', flag: '🇩🇪' },
+    { value: 'it', label: 'Italiano', flag: '🇮🇹' },
+    { value: 'pt', label: 'Portugués', flag: '🇧🇷' },
+    { value: 'zh', label: 'Chino Mandarín', flag: '🇨🇳' },
+    { value: 'ja', label: 'Japonés', flag: '🇯🇵' },
+    { value: 'ko', label: 'Coreano', flag: '🇰🇷' },
+    { value: 'ar', label: 'Árabe', flag: '🇸🇦' },
+    { value: 'ru', label: 'Ruso', flag: '🇷🇺' },
+    { value: 'hi', label: 'Hindi', flag: '🇮🇳' }
   ];
 
   const tiemposProcesamiento = [
-    { value: 'normal', label: 'Normal (8 a 12 horas)' },
-    { value: 'urgente', label: 'Urgente (1 a 2 horas + 50%)' }
+    { value: 'normal', label: 'Normal (8 a 12 horas)', icon: '⏰', color: 'text-green-400' },
+    { value: 'urgente', label: 'Urgente (1 a 2 horas + 50%)', icon: '🚀', color: 'text-orange-400' }
   ];
 
   const formatosDeseados = [
-    { value: 'digital', label: 'Digital' },
-    { value: 'fisico-envio', label: 'Físico + Envío' },
-    { value: 'fisico-retiro', label: 'Físico + Retiro Personal' }
+    { value: 'digital', label: 'Digital', icon: '💻' },
+    { value: 'fisico-envio', label: 'Físico + Envío', icon: '📦' },
+    { value: 'fisico-retiro', label: 'Físico + Retiro Personal', icon: '🏪' }
   ];
 
   const tiposDocumento = [
-    { value: 'legal', label: 'Documentos Legales' },
-    { value: 'academico', label: 'Documentos Académicos' },
-    { value: 'medico', label: 'Documentos Médicos' },
-    { value: 'tecnico', label: 'Documentos Técnicos' },
-    { value: 'comercial', label: 'Documentos Comerciales' },
-    { value: 'certificados', label: 'Certificados' },
-    { value: 'contratos', label: 'Contratos' },
-    { value: 'manuales', label: 'Manuales' },
-    { value: 'web', label: 'Páginas Web' },
-    { value: 'correspondencia', label: 'Correspondencia' },
-    { value: 'otro', label: 'Otro' }
+    { value: 'legal', label: 'Documentos Legales', icon: '⚖️' },
+    { value: 'academico', label: 'Documentos Académicos', icon: '🎓' },
+    { value: 'medico', label: 'Documentos Médicos', icon: '🏥' },
+    { value: 'tecnico', label: 'Documentos Técnicos', icon: '🔧' },
+    { value: 'comercial', label: 'Documentos Comerciales', icon: '💼' },
+    { value: 'certificados', label: 'Certificados', icon: '📜' },
+    { value: 'contratos', label: 'Contratos', icon: '📋' },
+    { value: 'manuales', label: 'Manuales', icon: '📖' },
+    { value: 'web', label: 'Páginas Web', icon: '🌐' },
+    { value: 'correspondencia', label: 'Correspondencia', icon: '✉️' },
+    { value: 'otro', label: 'Otro', icon: '📄' }
   ];
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -285,35 +286,49 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 py-8 px-4">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black py-8 px-4 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500/5 rounded-full blur-3xl animate-pulse delay-500"></div>
+      </div>
+
+      <div className="max-w-5xl mx-auto relative z-10">
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="flex justify-center mb-4">
-            <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-4 rounded-full shadow-lg">
-              <Globe className="w-10 h-10 text-white" />
+        <div className="text-center mb-12 animate-fade-in">
+          <div className="flex justify-center mb-6">
+            <div className="bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-6 rounded-full shadow-2xl transform hover:scale-110 transition-transform duration-500 animate-bounce-slow">
+              <Globe className="w-12 h-12 text-white drop-shadow-lg" />
             </div>
           </div>
-          <h1 className="text-5xl font-bold text-white mb-4 drop-shadow-lg">
+          <h1 className="text-6xl font-bold text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text mb-6 drop-shadow-lg animate-gradient">
             Solicitud de Traducción
           </h1>
-          <p className="text-xl text-gray-300">
+          <p className="text-2xl text-gray-300 font-light animate-fade-in-up delay-300">
             Completa el formulario para recibir una cotización personalizada
           </p>
+          <div className="flex justify-center mt-6">
+            <div className="h-1 w-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-pulse"></div>
+          </div>
         </div>
 
         {/* Formulario */}
-        <div className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8 border border-white/20">
-          <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="bg-gradient-to-br from-gray-800/90 via-gray-900/90 to-black/90 backdrop-blur-xl rounded-3xl shadow-2xl p-10 border border-gray-700/50 hover:border-purple-500/30 transition-all duration-700 animate-slide-up">
+          <form onSubmit={handleSubmit} className="space-y-10">
             {/* Información Personal */}
-            <div className="border-b border-gray-200 pb-6">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center">
-                <User className="w-6 h-6 mr-3 text-purple-600" />
-                Información Personal
+            <div className="border-b border-gray-700/50 pb-10">
+              <h2 className="text-3xl font-bold text-white mb-8 flex items-center group">
+                <div className="bg-gradient-to-br from-blue-500 to-purple-500 p-3 rounded-xl mr-4 group-hover:scale-110 transition-transform duration-300">
+                  <User className="w-7 h-7 text-white" />
+                </div>
+                <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                  Información Personal
+                </span>
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="nombre" className="block text-sm font-medium text-gray-700 mb-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="group">
+                  <label htmlFor="nombre" className="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-white transition-colors duration-300">
                     Nombre completo *
                   </label>
                   <input
@@ -322,15 +337,19 @@ function App() {
                     name="nombre"
                     value={formData.nombre}
                     onChange={handleInputChange}
+                    onFocus={() => setFocusedField('nombre')}
+                    onBlur={() => setFocusedField(null)}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 hover:border-gray-400 bg-white/80"
+                    className={`w-full px-6 py-4 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white placeholder-gray-400 hover:bg-gray-700/70 backdrop-blur-sm ${
+                      focusedField === 'nombre' ? 'shadow-lg shadow-purple-500/20 transform scale-105' : ''
+                    }`}
                     placeholder="Ingresa tu nombre completo"
                   />
                 </div>
 
-                <div>
-                  <label htmlFor="telefono" className="block text-sm font-medium text-gray-700 mb-2">
-                    <Phone className="w-4 h-4 inline mr-1" />
+                <div className="group">
+                  <label htmlFor="telefono" className="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-white transition-colors duration-300 flex items-center">
+                    <Phone className="w-4 h-4 mr-2 text-green-400" />
                     Teléfono *
                   </label>
                   <input
@@ -339,15 +358,19 @@ function App() {
                     name="telefono"
                     value={formData.telefono}
                     onChange={handleInputChange}
+                    onFocus={() => setFocusedField('telefono')}
+                    onBlur={() => setFocusedField(null)}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 hover:border-gray-400 bg-white/80"
+                    className={`w-full px-6 py-4 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white placeholder-gray-400 hover:bg-gray-700/70 backdrop-blur-sm ${
+                      focusedField === 'telefono' ? 'shadow-lg shadow-purple-500/20 transform scale-105' : ''
+                    }`}
                     placeholder="+1 234 567 8900"
                   />
                 </div>
 
-                <div className="md:col-span-2">
-                  <label htmlFor="correo" className="block text-sm font-medium text-gray-700 mb-2">
-                    <Mail className="w-4 h-4 inline mr-1" />
+                <div className="md:col-span-2 group">
+                  <label htmlFor="correo" className="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-white transition-colors duration-300 flex items-center">
+                    <Mail className="w-4 h-4 mr-2 text-blue-400" />
                     Correo electrónico *
                   </label>
                   <input
@@ -356,8 +379,12 @@ function App() {
                     name="correo"
                     value={formData.correo}
                     onChange={handleInputChange}
+                    onFocus={() => setFocusedField('correo')}
+                    onBlur={() => setFocusedField(null)}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 hover:border-gray-400 bg-white/80"
+                    className={`w-full px-6 py-4 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white placeholder-gray-400 hover:bg-gray-700/70 backdrop-blur-sm ${
+                      focusedField === 'correo' ? 'shadow-lg shadow-purple-500/20 transform scale-105' : ''
+                    }`}
                     placeholder="tu@email.com"
                   />
                 </div>
@@ -365,14 +392,18 @@ function App() {
             </div>
 
             {/* Detalles de Traducción */}
-            <div className="border-b border-gray-200 pb-6">
-              <h2 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center">
-                <Globe className="w-6 h-6 mr-3 text-purple-600" />
-                Detalles de Traducción
+            <div className="border-b border-gray-700/50 pb-10">
+              <h2 className="text-3xl font-bold text-white mb-8 flex items-center group">
+                <div className="bg-gradient-to-br from-emerald-500 to-teal-500 p-3 rounded-xl mr-4 group-hover:scale-110 transition-transform duration-300">
+                  <Globe className="w-7 h-7 text-white" />
+                </div>
+                <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
+                  Detalles de Traducción
+                </span>
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="idioma_origen" className="block text-sm font-medium text-gray-700 mb-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="group">
+                  <label htmlFor="idioma_origen" className="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-white transition-colors duration-300">
                     Idioma de origen *
                   </label>
                   <select
@@ -380,20 +411,24 @@ function App() {
                     name="idioma_origen"
                     value={formData.idioma_origen}
                     onChange={handleInputChange}
+                    onFocus={() => setFocusedField('idioma_origen')}
+                    onBlur={() => setFocusedField(null)}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 hover:border-gray-400 bg-white/80"
+                    className={`w-full px-6 py-4 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white hover:bg-gray-700/70 backdrop-blur-sm ${
+                      focusedField === 'idioma_origen' ? 'shadow-lg shadow-purple-500/20 transform scale-105' : ''
+                    }`}
                   >
-                    <option value="">Selecciona el idioma</option>
+                    <option value="" className="bg-gray-800">Selecciona el idioma</option>
                     {idiomas.map(idioma => (
-                      <option key={idioma.value} value={idioma.value}>
-                        {idioma.label}
+                      <option key={idioma.value} value={idioma.value} className="bg-gray-800">
+                        {idioma.flag} {idioma.label}
                       </option>
                     ))}
                   </select>
                 </div>
 
-                <div>
-                  <label htmlFor="idioma_destino" className="block text-sm font-medium text-gray-700 mb-2">
+                <div className="group">
+                  <label htmlFor="idioma_destino" className="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-white transition-colors duration-300">
                     Idioma de destino *
                   </label>
                   <select
@@ -401,21 +436,25 @@ function App() {
                     name="idioma_destino"
                     value={formData.idioma_destino}
                     onChange={handleInputChange}
+                    onFocus={() => setFocusedField('idioma_destino')}
+                    onBlur={() => setFocusedField(null)}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 hover:border-gray-400 bg-white/80"
+                    className={`w-full px-6 py-4 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white hover:bg-gray-700/70 backdrop-blur-sm ${
+                      focusedField === 'idioma_destino' ? 'shadow-lg shadow-purple-500/20 transform scale-105' : ''
+                    }`}
                   >
-                    <option value="">Selecciona el idioma</option>
+                    <option value="" className="bg-gray-800">Selecciona el idioma</option>
                     {idiomas.map(idioma => (
-                      <option key={idioma.value} value={idioma.value}>
-                        {idioma.label}
+                      <option key={idioma.value} value={idioma.value} className="bg-gray-800">
+                        {idioma.flag} {idioma.label}
                       </option>
                     ))}
                   </select>
                 </div>
 
-                <div>
-                  <label htmlFor="tiempo_procesamiento" className="block text-sm font-medium text-gray-700 mb-2">
-                    <Clock className="w-4 h-4 inline mr-1" />
+                <div className="group">
+                  <label htmlFor="tiempo_procesamiento" className="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-white transition-colors duration-300 flex items-center">
+                    <Clock className="w-4 h-4 mr-2 text-orange-400" />
                     Tiempo de procesamiento *
                   </label>
                   <select
@@ -423,21 +462,25 @@ function App() {
                     name="tiempo_procesamiento"
                     value={formData.tiempo_procesamiento}
                     onChange={handleInputChange}
+                    onFocus={() => setFocusedField('tiempo_procesamiento')}
+                    onBlur={() => setFocusedField(null)}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 hover:border-gray-400 bg-white/80"
+                    className={`w-full px-6 py-4 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white hover:bg-gray-700/70 backdrop-blur-sm ${
+                      focusedField === 'tiempo_procesamiento' ? 'shadow-lg shadow-purple-500/20 transform scale-105' : ''
+                    }`}
                   >
-                    <option value="">Selecciona el tiempo</option>
+                    <option value="" className="bg-gray-800">Selecciona el tiempo</option>
                     {tiemposProcesamiento.map(tiempo => (
-                      <option key={tiempo.value} value={tiempo.value}>
-                        {tiempo.label}
+                      <option key={tiempo.value} value={tiempo.value} className="bg-gray-800">
+                        {tiempo.icon} {tiempo.label}
                       </option>
                     ))}
                   </select>
                 </div>
 
-                <div>
-                  <label htmlFor="formato_deseado" className="block text-sm font-medium text-gray-700 mb-2">
-                    <FileText className="w-4 h-4 inline mr-1" />
+                <div className="group">
+                  <label htmlFor="formato_deseado" className="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-white transition-colors duration-300 flex items-center">
+                    <FileText className="w-4 h-4 mr-2 text-cyan-400" />
                     Formato deseado *
                   </label>
                   <select
@@ -445,21 +488,25 @@ function App() {
                     name="formato_deseado"
                     value={formData.formato_deseado}
                     onChange={handleInputChange}
+                    onFocus={() => setFocusedField('formato_deseado')}
+                    onBlur={() => setFocusedField(null)}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 hover:border-gray-400 bg-white/80"
+                    className={`w-full px-6 py-4 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white hover:bg-gray-700/70 backdrop-blur-sm ${
+                      focusedField === 'formato_deseado' ? 'shadow-lg shadow-purple-500/20 transform scale-105' : ''
+                    }`}
                   >
-                    <option value="">Selecciona el formato</option>
+                    <option value="" className="bg-gray-800">Selecciona el formato</option>
                     {formatosDeseados.map(formato => (
-                      <option key={formato.value} value={formato.value}>
-                        {formato.label}
+                      <option key={formato.value} value={formato.value} className="bg-gray-800">
+                        {formato.icon} {formato.label}
                       </option>
                     ))}
                   </select>
                 </div>
 
-                <div>
-                  <label htmlFor="numero_hojas" className="block text-sm font-medium text-gray-700 mb-2">
-                    <FileText className="w-4 h-4 inline mr-1" />
+                <div className="group">
+                  <label htmlFor="numero_hojas" className="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-white transition-colors duration-300 flex items-center">
+                    <FileText className="w-4 h-4 mr-2 text-purple-400" />
                     Número de hojas *
                   </label>
                   <input
@@ -468,16 +515,20 @@ function App() {
                     name="numero_hojas"
                     value={formData.numero_hojas}
                     onChange={handleInputChange}
+                    onFocus={() => setFocusedField('numero_hojas')}
+                    onBlur={() => setFocusedField(null)}
                     required
                     min="1"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 hover:border-gray-400 bg-white/80"
+                    className={`w-full px-6 py-4 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white placeholder-gray-400 hover:bg-gray-700/70 backdrop-blur-sm ${
+                      focusedField === 'numero_hojas' ? 'shadow-lg shadow-purple-500/20 transform scale-105' : ''
+                    }`}
                     placeholder="Ejemplo: 5"
                   />
                 </div>
 
-                <div>
-                  <label htmlFor="tipo_documento" className="block text-sm font-medium text-gray-700 mb-2">
-                    <FileText className="w-4 h-4 inline mr-1" />
+                <div className="group">
+                  <label htmlFor="tipo_documento" className="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-white transition-colors duration-300 flex items-center">
+                    <FileText className="w-4 h-4 mr-2 text-pink-400" />
                     Tipo de documento *
                   </label>
                   <select
@@ -485,21 +536,25 @@ function App() {
                     name="tipo_documento"
                     value={formData.tipo_documento}
                     onChange={handleInputChange}
+                    onFocus={() => setFocusedField('tipo_documento')}
+                    onBlur={() => setFocusedField(null)}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 hover:border-gray-400 bg-white/80"
+                    className={`w-full px-6 py-4 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white hover:bg-gray-700/70 backdrop-blur-sm ${
+                      focusedField === 'tipo_documento' ? 'shadow-lg shadow-purple-500/20 transform scale-105' : ''
+                    }`}
                   >
-                    <option value="">Selecciona el tipo</option>
+                    <option value="" className="bg-gray-800">Selecciona el tipo</option>
                     {tiposDocumento.map(tipo => (
-                      <option key={tipo.value} value={tipo.value}>
-                        {tipo.label}
+                      <option key={tipo.value} value={tipo.value} className="bg-gray-800">
+                        {tipo.icon} {tipo.label}
                       </option>
                     ))}
                   </select>
                 </div>
 
-                <div className="md:col-span-2">
-                  <label htmlFor="fecha_solicitud" className="block text-sm font-medium text-gray-700 mb-2">
-                    <Calendar className="w-4 h-4 inline mr-1" />
+                <div className="md:col-span-2 group">
+                  <label htmlFor="fecha_solicitud" className="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-white transition-colors duration-300 flex items-center">
+                    <Calendar className="w-4 h-4 mr-2 text-indigo-400" />
                     Fecha de solicitud
                   </label>
                   <input
@@ -508,7 +563,11 @@ function App() {
                     name="fecha_solicitud"
                     value={formData.fecha_solicitud}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 hover:border-gray-400 bg-white/80"
+                    onFocus={() => setFocusedField('fecha_solicitud')}
+                    onBlur={() => setFocusedField(null)}
+                    className={`w-full px-6 py-4 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white hover:bg-gray-700/70 backdrop-blur-sm ${
+                      focusedField === 'fecha_solicitud' ? 'shadow-lg shadow-purple-500/20 transform scale-105' : ''
+                    }`}
                   />
                 </div>
               </div>
@@ -516,36 +575,46 @@ function App() {
 
             {/* Archivos e Instrucciones */}
             <div>
-              <h2 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center">
-                <Upload className="w-6 h-6 mr-3 text-purple-600" />
-                Archivos e Instrucciones
+              <h2 className="text-3xl font-bold text-white mb-8 flex items-center group">
+                <div className="bg-gradient-to-br from-orange-500 to-red-500 p-3 rounded-xl mr-4 group-hover:scale-110 transition-transform duration-300">
+                  <Upload className="w-7 h-7 text-white" />
+                </div>
+                <span className="bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">
+                  Archivos e Instrucciones
+                </span>
               </h2>
-              <div className="space-y-6">
-                <div>
-                  <label htmlFor="archivos" className="block text-sm font-medium text-gray-700 mb-2">
+              <div className="space-y-8">
+                <div className="group">
+                  <label htmlFor="archivos" className="block text-sm font-semibold text-gray-300 mb-4 group-hover:text-white transition-colors duration-300">
                     Archivos a traducir
                   </label>
-                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 hover:border-purple-400 transition-colors duration-200 bg-gray-50/50">
+                  <div className="border-2 border-dashed border-gray-600/50 rounded-2xl p-8 hover:border-purple-400/70 transition-all duration-500 bg-gray-700/20 hover:bg-gray-700/30 group">
                     <input
                       type="file"
                       id="archivos"
                       name="archivos"
                       multiple
                       onChange={handleFileChange}
-                      className="w-full"
+                      className="w-full text-gray-300 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-gradient-to-r file:from-purple-500 file:to-pink-500 file:text-white hover:file:from-purple-600 hover:file:to-pink-600 file:transition-all file:duration-300 file:cursor-pointer file:shadow-lg"
                       accept=".pdf,.doc,.docx,.txt,.ppt,.pptx,.xls,.xlsx,.jpg,.jpeg,.png,.gif,.svg,.webp"
                     />
-                    <p className="text-sm text-gray-500 mt-2">
-                      Formatos aceptados: PDF, Word, PowerPoint, Excel, TXT, JPG, PNG, GIF, SVG, WebP
+                    <p className="text-sm text-gray-400 mt-4 group-hover:text-gray-300 transition-colors duration-300">
+                      📎 Formatos aceptados: PDF, Word, PowerPoint, Excel, TXT, JPG, PNG, GIF, SVG, WebP
                     </p>
                     {formData.archivos.length > 0 && (
-                      <div className="mt-3">
-                        <p className="text-sm font-medium text-gray-700">Archivos seleccionados:</p>
-                        <ul className="text-sm text-gray-600 mt-1">
+                      <div className="mt-6 animate-fade-in">
+                        <p className="text-sm font-semibold text-gray-200 mb-3 flex items-center">
+                          <CheckCircle className="w-4 h-4 mr-2 text-green-400" />
+                          Archivos seleccionados:
+                        </p>
+                        <ul className="space-y-2">
                           {formData.archivos.map((file, index) => (
-                            <li key={index} className="flex items-center">
-                              <FileText className="w-4 h-4 mr-2" />
-                              {file.name}
+                            <li key={index} className="flex items-center bg-gray-700/50 rounded-lg p-3 hover:bg-gray-700/70 transition-colors duration-300">
+                              <FileText className="w-5 h-5 mr-3 text-blue-400" />
+                              <span className="text-gray-200 font-medium">{file.name}</span>
+                              <span className="text-gray-400 text-sm ml-auto">
+                                {(file.size / 1024 / 1024).toFixed(2)} MB
+                              </span>
                             </li>
                           ))}
                         </ul>
@@ -554,9 +623,9 @@ function App() {
                   </div>
                 </div>
 
-                <div>
-                  <label htmlFor="instrucciones" className="block text-sm font-medium text-gray-700 mb-2">
-                    <MessageSquare className="w-4 h-4 inline mr-1" />
+                <div className="group">
+                  <label htmlFor="instrucciones" className="block text-sm font-semibold text-gray-300 mb-4 group-hover:text-white transition-colors duration-300 flex items-center">
+                    <MessageSquare className="w-4 h-4 mr-2 text-yellow-400" />
                     Instrucciones especiales
                   </label>
                   <textarea
@@ -564,8 +633,12 @@ function App() {
                     name="instrucciones"
                     value={formData.instrucciones}
                     onChange={handleInputChange}
-                    rows={4}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 hover:border-gray-400 resize-none bg-white/80"
+                    onFocus={() => setFocusedField('instrucciones')}
+                    onBlur={() => setFocusedField(null)}
+                    rows={5}
+                    className={`w-full px-6 py-4 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white placeholder-gray-400 resize-none hover:bg-gray-700/70 backdrop-blur-sm ${
+                      focusedField === 'instrucciones' ? 'shadow-lg shadow-purple-500/20 transform scale-105' : ''
+                    }`}
                     placeholder="Describe cualquier instrucción especial, contexto o preferencias para la traducción..."
                   />
                 </div>
@@ -574,30 +647,38 @@ function App() {
 
             {/* Mensaje de estado */}
             {submitStatus && (
-              <div className={`p-4 rounded-lg ${submitStatus === 'success' 
-                ? 'bg-green-50 text-green-700 border border-green-200' 
-                : 'bg-red-50 text-red-700 border border-red-200'
+              <div className={`p-6 rounded-2xl border-2 animate-fade-in ${submitStatus === 'success' 
+                ? 'bg-gradient-to-r from-green-500/10 to-emerald-500/10 text-green-300 border-green-500/30 shadow-lg shadow-green-500/20' 
+                : 'bg-gradient-to-r from-red-500/10 to-pink-500/10 text-red-300 border-red-500/30 shadow-lg shadow-red-500/20'
               }`}>
-                {submitMessage}
+                <div className="flex items-center">
+                  {submitStatus === 'success' ? (
+                    <CheckCircle className="w-6 h-6 mr-3 text-green-400" />
+                  ) : (
+                    <AlertCircle className="w-6 h-6 mr-3 text-red-400" />
+                  )}
+                  <span className="font-medium">{submitMessage}</span>
+                </div>
               </div>
             )}
 
             {/* Botón de envío */}
-            <div className="pt-6">
+            <div className="pt-8">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-4 px-6 rounded-lg font-semibold text-lg hover:from-purple-700 hover:to-blue-700 focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
+                className="w-full bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 text-white py-6 px-8 rounded-2xl font-bold text-xl hover:from-purple-700 hover:via-indigo-700 hover:to-blue-700 focus:ring-4 focus:ring-purple-500/30 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-2xl hover:shadow-purple-500/25 transform hover:scale-105 hover:-translate-y-1 group relative overflow-hidden"
               >
+                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                 {isSubmitting ? (
                   <>
-                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                    Enviando solicitud...
+                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-3"></div>
+                    <span className="relative z-10">Enviando solicitud...</span>
                   </>
                 ) : (
                   <>
-                    <Send className="w-5 h-5 mr-2" />
-                    Enviar Solicitud de Traducción
+                    <Send className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform duration-300" />
+                    <span className="relative z-10">Enviar Solicitud de Traducción</span>
                   </>
                 )}
               </button>
@@ -606,10 +687,15 @@ function App() {
         </div>
 
         {/* Footer */}
-        <div className="text-center mt-8">
-          <p className="text-gray-300 text-lg">
-            Recibirás una respuesta en minutos
+        <div className="text-center mt-12 animate-fade-in-up delay-500">
+          <p className="text-gray-300 text-xl font-light">
+            ⚡ Recibirás una respuesta en minutos
           </p>
+          <div className="flex justify-center mt-4 space-x-2">
+            <div className="h-2 w-2 bg-blue-400 rounded-full animate-pulse"></div>
+            <div className="h-2 w-2 bg-purple-400 rounded-full animate-pulse delay-100"></div>
+            <div className="h-2 w-2 bg-pink-400 rounded-full animate-pulse delay-200"></div>
+          </div>
         </div>
       </div>
     </div>
