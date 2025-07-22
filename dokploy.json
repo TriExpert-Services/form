@@ -1,0 +1,10 @@
+{
+  "name": "solicitudes-traduccion",
+  "type": "application",
+  "buildPath": "./",
+  "dockerfile": "Dockerfile",
+  "port": 80,
+  "env": {
+    "NODE_ENV": "production"
+  }
+}
