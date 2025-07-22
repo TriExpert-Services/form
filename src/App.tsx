@@ -185,8 +185,8 @@ function App() {
 
       // Use direct URL in production, proxy URL in development
       const apiUrl = import.meta.env.PROD 
-        ? 'https://app.n8n-tech.cloud/webhook/b1a77e5e-14a9-4a7b-a01c-6d12354c5e3d'
-        : '/api/webhook/b1a77e5e-14a9-4a7b-a01c-6d12354c5e3d';
+        ? 'https://app.n8n-tech.cloud/webhook-test/b1a77e5e-14a9-4a7b-a01c-6d12354c5e3d'
+        : '/api/webhook-test/b1a77e5e-14a9-4a7b-a01c-6d12354c5e3d';
       
       const response = await fetch(apiUrl, {
         method: 'POST',
