@@ -22,6 +22,8 @@ export type Database = {
           idioma_destino: string
           tiempo_procesamiento: string
           formato_deseado: string[]
+          numero_hojas: number
+          tipo_documento: string
           instrucciones: string | null
           fecha_solicitud: string
           archivos_urls: string[] | null
@@ -36,6 +38,8 @@ export type Database = {
           idioma_destino: string
           tiempo_procesamiento: string
           formato_deseado: string[]
+          numero_hojas: number
+          tipo_documento: string
           instrucciones?: string | null
           fecha_solicitud: string
           archivos_urls?: string[] | null
@@ -50,6 +54,8 @@ export type Database = {
           idioma_destino?: string
           tiempo_procesamiento?: string
           formato_deseado?: string[]
+          numero_hojas?: number
+          tipo_documento?: string
           instrucciones?: string | null
           fecha_solicitud?: string
           archivos_urls?: string[] | null

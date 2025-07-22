@@ -10,6 +10,8 @@ interface FormData {
   idioma_destino: string;
   tiempo_procesamiento: string;
   formato_deseado: string;
+  numero_hojas: string;
+  tipo_documento: string;
   instrucciones: string;
   archivos: File[];
   fecha_solicitud: string;
@@ -24,6 +26,8 @@ function App() {
     idioma_destino: '',
     tiempo_procesamiento: '',
     formato_deseado: '',
+    numero_hojas: '',
+    tipo_documento: '',
     instrucciones: '',
     archivos: [],
     fecha_solicitud: new Date().toISOString().split('T')[0]
@@ -59,6 +63,20 @@ function App() {
     { value: 'fisico-retiro', label: 'Físico + Retiro Personal' }
   ];
 
+  const tiposDocumento = [
+    { value: 'legal', label: 'Documentos Legales' },
+    { value: 'academico', label: 'Documentos Académicos' },
+    { value: 'medico', label: 'Documentos Médicos' },
+    { value: 'tecnico', label: 'Documentos Técnicos' },
+    { value: 'comercial', label: 'Documentos Comerciales' },
+    { value: 'certificados', label: 'Certificados' },
+    { value: 'contratos', label: 'Contratos' },
+    { value: 'manuales', label: 'Manuales' },
+    { value: 'web', label: 'Páginas Web' },
+    { value: 'correspondencia', label: 'Correspondencia' },
+    { value: 'otro', label: 'Otro' }
+  ];
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -84,7 +102,7 @@ function App() {
 
     try {
       // Verificar que los campos requeridos estén completos
-      const requiredFields = ['nombre', 'telefono', 'correo', 'idioma_origen', 'idioma_destino', 'tiempo_procesamiento', 'formato_deseado'];
+      const requiredFields = ['nombre', 'telefono', 'correo', 'idioma_origen', 'idioma_destino', 'tiempo_procesamiento', 'formato_deseado', 'numero_hojas', 'tipo_documento'];
       const missingFields = requiredFields.filter(field => !formData[field as keyof FormData]);
       
       if (missingFields.length > 0) {
@@ -127,6 +145,8 @@ function App() {
         idioma_destino: formData.idioma_destino,
         tiempo_procesamiento: formData.tiempo_procesamiento,
         formato_deseado: [formData.formato_deseado],
+        numero_hojas: parseInt(formData.numero_hojas),
+        tipo_documento: formData.tipo_documento,
         instrucciones: formData.instrucciones || null,
         fecha_solicitud: formData.fecha_solicitud,
         archivos_urls: archivosUrls.length > 0 ? archivosUrls : null
@@ -159,6 +179,8 @@ function App() {
       formDataToSend.append('idioma_destino', formData.idioma_destino);
       formDataToSend.append('tiempo_procesamiento', formData.tiempo_procesamiento);
       formDataToSend.append('formato_deseado', formData.formato_deseado);
+      formDataToSend.append('numero_hojas', formData.numero_hojas);
+      formDataToSend.append('tipo_documento', formData.tipo_documento);
       formDataToSend.append('instrucciones', formData.instrucciones);
       formDataToSend.append('fecha_solicitud', formData.fecha_solicitud);
       
@@ -209,6 +231,8 @@ function App() {
           idioma_destino: '',
           tiempo_procesamiento: '',
           formato_deseado: '',
+          numero_hojas: '',
+          tipo_documento: '',
           instrucciones: '',
           archivos: [],
           fecha_solicitud: new Date().toISOString().split('T')[0]
@@ -231,6 +255,8 @@ function App() {
           idioma_destino: '',
           tiempo_procesamiento: '',
           formato_deseado: '',
+          numero_hojas: '',
+          tipo_documento: '',
           instrucciones: '',
           archivos: [],
           fecha_solicitud: new Date().toISOString().split('T')[0]
@@ -426,6 +452,46 @@ function App() {
                     {formatosDeseados.map(formato => (
                       <option key={formato.value} value={formato.value}>
                         {formato.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label htmlFor="numero_hojas" className="block text-sm font-medium text-gray-700 mb-2">
+                    <FileText className="w-4 h-4 inline mr-1" />
+                    Número de hojas *
+                  </label>
+                  <input
+                    type="number"
+                    id="numero_hojas"
+                    name="numero_hojas"
+                    value={formData.numero_hojas}
+                    onChange={handleInputChange}
+                    required
+                    min="1"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 hover:border-gray-400 bg-white/80"
+                    placeholder="Ejemplo: 5"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="tipo_documento" className="block text-sm font-medium text-gray-700 mb-2">
+                    <FileText className="w-4 h-4 inline mr-1" />
+                    Tipo de documento *
+                  </label>
+                  <select
+                    id="tipo_documento"
+                    name="tipo_documento"
+                    value={formData.tipo_documento}
+                    onChange={handleInputChange}
+                    required
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 hover:border-gray-400 bg-white/80"
+                  >
+                    <option value="">Selecciona el tipo</option>
+                    {tiposDocumento.map(tipo => (
+                      <option key={tipo.value} value={tipo.value}>
+                        {tipo.label}
                       </option>
                     ))}
                   </select>
