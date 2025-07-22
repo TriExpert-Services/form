@@ -54,18 +54,9 @@ function App() {
   ];
 
   const formatosDeseados = [
-    { value: 'word', label: 'Microsoft Word (.docx)' },
-    { value: 'pdf', label: 'PDF' },
-    { value: 'excel', label: 'Microsoft Excel (.xlsx)' },
-    { value: 'powerpoint', label: 'Microsoft PowerPoint (.pptx)' },
-    { value: 'texto-plano', label: 'Texto plano (.txt)' },
-    { value: 'html', label: 'HTML' },
-    { value: 'jpg', label: 'Imagen JPEG (.jpg)' },
-    { value: 'png', label: 'Imagen PNG (.png)' },
-    { value: 'gif', label: 'Imagen GIF (.gif)' },
-    { value: 'svg', label: 'Imagen SVG (.svg)' },
-    { value: 'webp', label: 'Imagen WebP (.webp)' },
-    { value: 'mismo-formato', label: 'Mismo formato del original' }
+    { value: 'digital', label: 'Digital' },
+    { value: 'fisico-envio', label: 'Físico + Envío' },
+    { value: 'fisico-retiro', label: 'Físico + Retiro Personal' }
   ];
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
