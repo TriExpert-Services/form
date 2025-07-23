@@ -73,9 +73,6 @@ function App() {
     { value: 'certificados', label: 'Certificados', icon: '📜' },
     { value: 'contratos', label: 'Contratos', icon: '📋' },
     { value: 'manuales', label: 'Manuales', icon: '📖' },
-    { value: 'web', label: 'Páginas Web', icon: '🌐' },
-    { value: 'correspondencia', label: 'Correspondencia', icon: '✉️' },
-    { value: 'otro', label: 'Otro', icon: '📄' }
   ];
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
