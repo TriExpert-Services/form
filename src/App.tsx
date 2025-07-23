@@ -65,14 +65,14 @@ function App() {
   ];
 
   const tiposDocumento = [
-    { value: 'legal', label: 'Documentos Legales', icon: '⚖️' },
-    { value: 'academico', label: 'Documentos Académicos', icon: '🎓' },
-    { value: 'medico', label: 'Documentos Médicos', icon: '🏥' },
-    { value: 'tecnico', label: 'Documentos Técnicos', icon: '🔧' },
-    { value: 'comercial', label: 'Documentos Comerciales', icon: '💼' },
-    { value: 'certificados', label: 'Certificados', icon: '📜' },
-    { value: 'contratos', label: 'Contratos', icon: '📋' },
-    { value: 'manuales', label: 'Manuales', icon: '📖' },
+    { value: 'legal', label: 'Documentos Legales', icon: '⚖️', precio: 30 },
+    { value: 'academico', label: 'Documentos Académicos', icon: '🎓', precio: 25 },
+    { value: 'medico', label: 'Documentos Médicos', icon: '🏥', precio: 35 },
+    { value: 'tecnico', label: 'Documentos Técnicos', icon: '🔧', precio: 35 },
+    { value: 'comercial', label: 'Documentos Comerciales', icon: '💼', precio: 30 },
+    { value: 'certificados', label: 'Certificados', icon: '📜', precio: 20 },
+    { value: 'contratos', label: 'Contratos', icon: '📋', precio: 33 },
+    { value: 'manuales', label: 'Manuales', icon: '📖', precio: 40 },
   ];
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -91,6 +91,18 @@ function App() {
       }));
     }
   };
+
+  // Función para calcular el total
+  const calcularTotal = () => {
+    const numeroHojas = parseInt(formData.numero_hojas) || 0;
+    const tipoSeleccionado = tiposDocumento.find(tipo => tipo.value === formData.tipo_documento);
+    if (tipoSeleccionado && numeroHojas > 0) {
+      return numeroHojas * tipoSeleccionado.precio;
+    }
+    return 0;
+  };
+
+  const total = calcularTotal();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -554,11 +566,38 @@ function App() {
                     <option value="" className="bg-gray-800">Selecciona el tipo</option>
                     {tiposDocumento.map(tipo => (
                       <option key={tipo.value} value={tipo.value} className="bg-gray-800">
-                        {tipo.icon} {tipo.label}
+                        {tipo.icon} {tipo.label} - ${tipo.precio}/hoja
                       </option>
                     ))}
                   </select>
                 </div>
+
+                {/* Mostrar total calculado */}
+                {total > 0 && (
+                  <div className="md:col-span-2 animate-fade-in">
+                    <div className="bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border-2 border-emerald-500/30 rounded-xl p-6 backdrop-blur-sm">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+                          <div className="bg-gradient-to-br from-emerald-500 to-teal-500 p-3 rounded-xl mr-4">
+                            <FileText className="w-6 h-6 text-white" />
+                          </div>
+                          <div>
+                            <h3 className="text-xl font-bold text-emerald-400 mb-1">Total Estimado</h3>
+                            <p className="text-gray-300 text-sm">
+                              {formData.numero_hojas} hojas × ${tiposDocumento.find(t => t.value === formData.tipo_documento)?.precio || 0}/hoja
+                            </p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-3xl font-bold text-transparent bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text">
+                            ${total}
+                          </div>
+                          <p className="text-gray-400 text-sm">USD</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 <div className="md:col-span-2 group">
                   <label htmlFor="fecha_solicitud" className="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-white transition-colors duration-300 flex items-center">
