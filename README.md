@@ -68,7 +68,7 @@ VITE_SUPABASE_ANON_KEY=tu_clave_publica_supabase
 ### Opción 1: Dokploy (Recomendado)
 Ver [DEPLOY_DOKPLOY.md](./DEPLOY_DOKPLOY.md) para instrucciones detalladas.
 
-**Nota**: No requiere configuración de SSL ya que Cloudflare maneja el certificado SSL.
+**✅ SSL Automático**: Cloudflare maneja todo el SSL/TLS automáticamente. No configurar certificados en Dokploy.
 
 ### Opción 2: Docker
 ```bash

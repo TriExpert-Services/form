@@ -70,7 +70,10 @@ Asegúrate de tener:
    Domain: tu-dominio.com
    ```
 
-2. **No configurar SSL** (Cloudflare maneja el SSL)
+2. **SSL/TLS:** No configurar certificado SSL en Dokploy
+   - ✅ **Cloudflare maneja todo el SSL** automáticamente
+   - ✅ **Certificado gratuito** incluido en Cloudflare
+   - ✅ **Renovación automática**
 
 ### Paso 5: Deploy
 
@@ -90,6 +93,23 @@ Asegúrate de tener:
     └── lib/supabase.ts     # Cliente Supabase
 ```
 
+## ☁️ Configuración Cloudflare
+
+### SSL/TLS Settings (Recomendado)
+```
+SSL/TLS Mode: Full (strict)
+Edge Certificates: Enabled
+Always Use HTTPS: Enabled
+```
+
+### Proxy Settings
+```
+Proxy Status: Proxied (orange cloud)
+Auto Minify: JavaScript, CSS, HTML
+Brotli Compression: Enabled
+```
+
+**⚠️ Importante:** Dokploy NO necesita configurar SSL ya que Cloudflare maneja todo el cifrado entre el cliente y el servidor.
 ## 🐳 Dockerfile Explicación
 
 ```dockerfile
@@ -202,6 +222,7 @@ Si encuentras problemas durante el deployment:
 - [ ] Formulario funciona end-to-end
 - [ ] Webhook n8n responde correctamente
 - [ ] Cloudflare proxy configurado
+- [ ] SSL/TLS automático funcionando (vía Cloudflare)
 - [ ] Dominio personalizado configurado (si aplica)
 
 ¡Tu aplicación de Solicitudes de Traducción está lista para producción! 🎉
