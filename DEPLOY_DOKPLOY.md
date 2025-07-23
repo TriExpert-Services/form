@@ -70,7 +70,7 @@ Asegúrate de tener:
    Domain: tu-dominio.com
    ```
 
-2. **Configurar SSL automático** (recomendado)
+2. **No configurar SSL** (Cloudflare maneja el SSL)
 
 ### Paso 5: Deploy
 
@@ -201,7 +201,7 @@ Si encuentras problemas durante el deployment:
 - [ ] Supabase conectado y funcionando
 - [ ] Formulario funciona end-to-end
 - [ ] Webhook n8n responde correctamente
-- [ ] SSL configurado (si aplica)
+- [ ] Cloudflare proxy configurado
 - [ ] Dominio personalizado configurado (si aplica)
 
 ¡Tu aplicación de Solicitudes de Traducción está lista para producción! 🎉
