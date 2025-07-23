@@ -211,7 +211,7 @@ function App() {
       console.log('FormData creado, enviando a n8n...');
 
       // Usar siempre la URL de producción directamente
-      const apiUrl = 'https://app.n8n-tech.cloud/webhook-test/b1a77e5e-14a9-4a7b-a01c-6d12354c5e3d';
+      const apiUrl = 'https://app.n8n-tech.cloud/webhook/b1a77e5e-14a9-4a7b-a01c-6d12354c5e3d';
       
       const response = await fetch(apiUrl, {
         method: 'POST',

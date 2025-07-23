@@ -132,7 +132,7 @@ El formulario envía datos a un webhook de n8n que:
 3. Genera enlace de pago
 4. Envía confirmaciones por email
 
-**Webhook URL**: `https://app.n8n-tech.cloud/webhook-test/b1a77e5e-14a9-4a7b-a01c-6d12354c5e3d`
+**Webhook URL**: `https://app.n8n-tech.cloud/webhook/b1a77e5e-14a9-4a7b-a01c-6d12354c5e3d`
 
 ## 🎨 Características de Diseño
 
