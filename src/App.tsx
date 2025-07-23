@@ -201,6 +201,9 @@ function App() {
       // Agregar el ID de Supabase para referencia
       formDataToSend.append('supabase_id', supabaseData.id);
       
+      // Agregar el total calculado
+      formDataToSend.append('total', total.toString());
+      
       // Agregar archivos como binary data
       formData.archivos.forEach((file, index) => {
         formDataToSend.append(`archivo_${index}`, file, file.name);
