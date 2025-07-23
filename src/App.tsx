@@ -320,39 +320,39 @@ function App() {
 
       <div className="max-w-5xl mx-auto relative z-10">
         {/* Header */}
-        <div className="text-center mb-12 animate-fade-in">
-          <div className="flex justify-center mb-6">
-            <div className="bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-6 rounded-full shadow-2xl transform hover:scale-110 transition-transform duration-500 animate-bounce-slow">
-              <Globe className="w-12 h-12 text-white drop-shadow-lg" />
+        <div className="text-center mb-10 animate-fade-in">
+          <div className="flex justify-center mb-5">
+            <div className="bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-5 rounded-full shadow-2xl transform hover:scale-110 transition-transform duration-500 animate-bounce-slow">
+              <Globe className="w-10 h-10 text-white drop-shadow-lg" />
             </div>
           </div>
-          <h1 className="text-6xl font-bold text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text mb-6 drop-shadow-lg animate-gradient">
+          <h1 className="text-5xl font-bold text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text mb-5 drop-shadow-lg animate-gradient">
             Solicitud de Traducción
           </h1>
-          <p className="text-2xl text-gray-300 font-light animate-fade-in-up delay-300">
+          <p className="text-xl text-gray-300 font-light animate-fade-in-up delay-300">
             Completa el formulario para recibir una cotización personalizada
           </p>
-          <div className="flex justify-center mt-6">
+          <div className="flex justify-center mt-5">
             <div className="h-1 w-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-pulse"></div>
           </div>
         </div>
 
         {/* Formulario */}
-        <div className="bg-gradient-to-br from-gray-800/90 via-gray-900/90 to-black/90 backdrop-blur-xl rounded-3xl shadow-2xl p-10 border border-gray-700/50 hover:border-purple-500/30 transition-all duration-700 animate-slide-up">
-          <form onSubmit={handleSubmit} className="space-y-10">
+        <div className="bg-gradient-to-br from-gray-800/90 via-gray-900/90 to-black/90 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border border-gray-700/50 hover:border-purple-500/30 transition-all duration-700 animate-slide-up">
+          <form onSubmit={handleSubmit} className="space-y-8">
             {/* Información Personal */}
-            <div className="border-b border-gray-700/50 pb-10">
-              <h2 className="text-3xl font-bold text-white mb-8 flex items-center group">
-                <div className="bg-gradient-to-br from-blue-500 to-purple-500 p-3 rounded-xl mr-4 group-hover:scale-110 transition-transform duration-300">
-                  <User className="w-7 h-7 text-white" />
+            <div className="border-b border-gray-700/50 pb-8">
+              <h2 className="text-2xl font-bold text-white mb-6 flex items-center group">
+                <div className="bg-gradient-to-br from-blue-500 to-purple-500 p-2.5 rounded-xl mr-3 group-hover:scale-110 transition-transform duration-300">
+                  <User className="w-6 h-6 text-white" />
                 </div>
                 <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                   Información Personal
                 </span>
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="group">
-                  <label htmlFor="nombre" className="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-white transition-colors duration-300">
+                  <label htmlFor="nombre" className="block text-sm font-semibold text-gray-300 mb-2 group-hover:text-white transition-colors duration-300">
                     Nombre completo *
                   </label>
                   <input
@@ -364,7 +364,7 @@ function App() {
                     onFocus={() => setFocusedField('nombre')}
                     onBlur={() => setFocusedField(null)}
                     required
-                    className={`w-full px-6 py-4 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white placeholder-gray-400 hover:bg-gray-700/70 backdrop-blur-sm ${
+                    className={`w-full px-5 py-3 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white placeholder-gray-400 hover:bg-gray-700/70 backdrop-blur-sm ${
                       focusedField === 'nombre' ? 'shadow-lg shadow-purple-500/20 transform scale-105' : ''
                     }`}
                     placeholder="Ingresa tu nombre completo"
@@ -372,7 +372,7 @@ function App() {
                 </div>
 
                 <div className="group">
-                  <label htmlFor="telefono" className="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-white transition-colors duration-300 flex items-center">
+                  <label htmlFor="telefono" className="block text-sm font-semibold text-gray-300 mb-2 group-hover:text-white transition-colors duration-300 flex items-center">
                     <Phone className="w-4 h-4 mr-2 text-green-400" />
                     Teléfono *
                   </label>
@@ -385,7 +385,7 @@ function App() {
                     onFocus={() => setFocusedField('telefono')}
                     onBlur={() => setFocusedField(null)}
                     required
-                    className={`w-full px-6 py-4 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white placeholder-gray-400 hover:bg-gray-700/70 backdrop-blur-sm ${
+                    className={`w-full px-5 py-3 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white placeholder-gray-400 hover:bg-gray-700/70 backdrop-blur-sm ${
                       focusedField === 'telefono' ? 'shadow-lg shadow-purple-500/20 transform scale-105' : ''
                     }`}
                     placeholder="+1 234 567 8900"
@@ -393,7 +393,7 @@ function App() {
                 </div>
 
                 <div className="md:col-span-2 group">
-                  <label htmlFor="correo" className="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-white transition-colors duration-300 flex items-center">
+                  <label htmlFor="correo" className="block text-sm font-semibold text-gray-300 mb-2 group-hover:text-white transition-colors duration-300 flex items-center">
                     <Mail className="w-4 h-4 mr-2 text-blue-400" />
                     Correo electrónico *
                   </label>
@@ -406,7 +406,7 @@ function App() {
                     onFocus={() => setFocusedField('correo')}
                     onBlur={() => setFocusedField(null)}
                     required
-                    className={`w-full px-6 py-4 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white placeholder-gray-400 hover:bg-gray-700/70 backdrop-blur-sm ${
+                    className={`w-full px-5 py-3 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white placeholder-gray-400 hover:bg-gray-700/70 backdrop-blur-sm ${
                       focusedField === 'correo' ? 'shadow-lg shadow-purple-500/20 transform scale-105' : ''
                     }`}
                     placeholder="tu@email.com"
@@ -416,18 +416,18 @@ function App() {
             </div>
 
             {/* Detalles de Traducción */}
-            <div className="border-b border-gray-700/50 pb-10">
-              <h2 className="text-3xl font-bold text-white mb-8 flex items-center group">
-                <div className="bg-gradient-to-br from-emerald-500 to-teal-500 p-3 rounded-xl mr-4 group-hover:scale-110 transition-transform duration-300">
-                  <Globe className="w-7 h-7 text-white" />
+            <div className="border-b border-gray-700/50 pb-8">
+              <h2 className="text-2xl font-bold text-white mb-6 flex items-center group">
+                <div className="bg-gradient-to-br from-emerald-500 to-teal-500 p-2.5 rounded-xl mr-3 group-hover:scale-110 transition-transform duration-300">
+                  <Globe className="w-6 h-6 text-white" />
                 </div>
                 <span className="bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
                   Detalles de Traducción
                 </span>
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="group">
-                  <label htmlFor="idioma_origen" className="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-white transition-colors duration-300">
+                  <label htmlFor="idioma_origen" className="block text-sm font-semibold text-gray-300 mb-2 group-hover:text-white transition-colors duration-300">
                     Idioma de origen *
                   </label>
                   <select
@@ -438,7 +438,7 @@ function App() {
                     onFocus={() => setFocusedField('idioma_origen')}
                     onBlur={() => setFocusedField(null)}
                     required
-                    className={`w-full px-6 py-4 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white hover:bg-gray-700/70 backdrop-blur-sm ${
+                    className={`w-full px-5 py-3 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white hover:bg-gray-700/70 backdrop-blur-sm ${
                       focusedField === 'idioma_origen' ? 'shadow-lg shadow-purple-500/20 transform scale-105' : ''
                     }`}
                   >
@@ -452,7 +452,7 @@ function App() {
                 </div>
 
                 <div className="group">
-                  <label htmlFor="idioma_destino" className="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-white transition-colors duration-300">
+                  <label htmlFor="idioma_destino" className="block text-sm font-semibold text-gray-300 mb-2 group-hover:text-white transition-colors duration-300">
                     Idioma de destino *
                   </label>
                   <select
@@ -463,7 +463,7 @@ function App() {
                     onFocus={() => setFocusedField('idioma_destino')}
                     onBlur={() => setFocusedField(null)}
                     required
-                    className={`w-full px-6 py-4 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white hover:bg-gray-700/70 backdrop-blur-sm ${
+                    className={`w-full px-5 py-3 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white hover:bg-gray-700/70 backdrop-blur-sm ${
                       focusedField === 'idioma_destino' ? 'shadow-lg shadow-purple-500/20 transform scale-105' : ''
                     }`}
                   >
@@ -477,7 +477,7 @@ function App() {
                 </div>
 
                 <div className="group">
-                  <label htmlFor="tiempo_procesamiento" className="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-white transition-colors duration-300 flex items-center">
+                  <label htmlFor="tiempo_procesamiento" className="block text-sm font-semibold text-gray-300 mb-2 group-hover:text-white transition-colors duration-300 flex items-center">
                     <Clock className="w-4 h-4 mr-2 text-orange-400" />
                     Tiempo de procesamiento *
                   </label>
@@ -489,7 +489,7 @@ function App() {
                     onFocus={() => setFocusedField('tiempo_procesamiento')}
                     onBlur={() => setFocusedField(null)}
                     required
-                    className={`w-full px-6 py-4 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white hover:bg-gray-700/70 backdrop-blur-sm ${
+                    className={`w-full px-5 py-3 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white hover:bg-gray-700/70 backdrop-blur-sm ${
                       focusedField === 'tiempo_procesamiento' ? 'shadow-lg shadow-purple-500/20 transform scale-105' : ''
                     }`}
                   >
@@ -503,7 +503,7 @@ function App() {
                 </div>
 
                 <div className="group">
-                  <label htmlFor="formato_deseado" className="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-white transition-colors duration-300 flex items-center">
+                  <label htmlFor="formato_deseado" className="block text-sm font-semibold text-gray-300 mb-2 group-hover:text-white transition-colors duration-300 flex items-center">
                     <FileText className="w-4 h-4 mr-2 text-cyan-400" />
                     Formato deseado *
                   </label>
@@ -515,7 +515,7 @@ function App() {
                     onFocus={() => setFocusedField('formato_deseado')}
                     onBlur={() => setFocusedField(null)}
                     required
-                    className={`w-full px-6 py-4 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white hover:bg-gray-700/70 backdrop-blur-sm ${
+                    className={`w-full px-5 py-3 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white hover:bg-gray-700/70 backdrop-blur-sm ${
                       focusedField === 'formato_deseado' ? 'shadow-lg shadow-purple-500/20 transform scale-105' : ''
                     }`}
                   >
@@ -529,7 +529,7 @@ function App() {
                 </div>
 
                 <div className="group">
-                  <label htmlFor="numero_hojas" className="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-white transition-colors duration-300 flex items-center">
+                  <label htmlFor="numero_hojas" className="block text-sm font-semibold text-gray-300 mb-2 group-hover:text-white transition-colors duration-300 flex items-center">
                     <FileText className="w-4 h-4 mr-2 text-purple-400" />
                     Número de hojas *
                   </label>
@@ -543,7 +543,7 @@ function App() {
                     onBlur={() => setFocusedField(null)}
                     required
                     min="1"
-                    className={`w-full px-6 py-4 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white placeholder-gray-400 hover:bg-gray-700/70 backdrop-blur-sm ${
+                    className={`w-full px-5 py-3 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white placeholder-gray-400 hover:bg-gray-700/70 backdrop-blur-sm ${
                       focusedField === 'numero_hojas' ? 'shadow-lg shadow-purple-500/20 transform scale-105' : ''
                     }`}
                     placeholder="Ejemplo: 5"
@@ -551,7 +551,7 @@ function App() {
                 </div>
 
                 <div className="group">
-                  <label htmlFor="tipo_documento" className="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-white transition-colors duration-300 flex items-center">
+                  <label htmlFor="tipo_documento" className="block text-sm font-semibold text-gray-300 mb-2 group-hover:text-white transition-colors duration-300 flex items-center">
                     <FileText className="w-4 h-4 mr-2 text-pink-400" />
                     Tipo de documento *
                   </label>
@@ -563,7 +563,7 @@ function App() {
                     onFocus={() => setFocusedField('tipo_documento')}
                     onBlur={() => setFocusedField(null)}
                     required
-                    className={`w-full px-6 py-4 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white hover:bg-gray-700/70 backdrop-blur-sm ${
+                    className={`w-full px-5 py-3 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white hover:bg-gray-700/70 backdrop-blur-sm ${
                       focusedField === 'tipo_documento' ? 'shadow-lg shadow-purple-500/20 transform scale-105' : ''
                     }`}
                   >
@@ -579,14 +579,14 @@ function App() {
                 {/* Mostrar total calculado */}
                 {total > 0 && (
                   <div className="md:col-span-2 animate-fade-in">
-                    <div className="bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border-2 border-emerald-500/30 rounded-xl p-6 backdrop-blur-sm">
+                    <div className="bg-gradient-to-r from-emerald-500/10 to-teal-500/10 border-2 border-emerald-500/30 rounded-xl p-5 backdrop-blur-sm">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center">
-                          <div className="bg-gradient-to-br from-emerald-500 to-teal-500 p-3 rounded-xl mr-4">
-                            <FileText className="w-6 h-6 text-white" />
+                          <div className="bg-gradient-to-br from-emerald-500 to-teal-500 p-2.5 rounded-xl mr-3">
+                            <FileText className="w-5 h-5 text-white" />
                           </div>
                           <div>
-                            <h3 className="text-xl font-bold text-emerald-400 mb-1">Total Estimado</h3>
+                            <h3 className="text-lg font-bold text-emerald-400 mb-1">Total Estimado</h3>
                             <p className="text-gray-300 text-sm">
                               {formData.numero_hojas} hojas × ${tiposDocumento.find(t => t.value === formData.tipo_documento)?.precio || 0}/hoja = ${Math.round(subtotal)}
                             </p>
@@ -598,7 +598,7 @@ function App() {
                           </div>
                         </div>
                         <div className="text-right">
-                          <div className="text-3xl font-bold text-transparent bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text">
+                          <div className="text-2xl font-bold text-transparent bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text">
                             ${total}
                           </div>
                           <p className="text-gray-400 text-sm">USD</p>
@@ -614,7 +614,7 @@ function App() {
                 )}
 
                 <div className="md:col-span-2 group">
-                  <label htmlFor="fecha_solicitud" className="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-white transition-colors duration-300 flex items-center">
+                  <label htmlFor="fecha_solicitud" className="block text-sm font-semibold text-gray-300 mb-2 group-hover:text-white transition-colors duration-300 flex items-center">
                     <Calendar className="w-4 h-4 mr-2 text-indigo-400" />
                     Fecha de solicitud
                   </label>
@@ -626,7 +626,7 @@ function App() {
                     onChange={handleInputChange}
                     onFocus={() => setFocusedField('fecha_solicitud')}
                     onBlur={() => setFocusedField(null)}
-                    className={`w-full px-6 py-4 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white hover:bg-gray-700/70 backdrop-blur-sm ${
+                    className={`w-full px-5 py-3 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white hover:bg-gray-700/70 backdrop-blur-sm ${
                       focusedField === 'fecha_solicitud' ? 'shadow-lg shadow-purple-500/20 transform scale-105' : ''
                     }`}
                   />
@@ -636,20 +636,20 @@ function App() {
 
             {/* Archivos e Instrucciones */}
             <div>
-              <h2 className="text-3xl font-bold text-white mb-8 flex items-center group">
-                <div className="bg-gradient-to-br from-orange-500 to-red-500 p-3 rounded-xl mr-4 group-hover:scale-110 transition-transform duration-300">
-                  <Upload className="w-7 h-7 text-white" />
+              <h2 className="text-2xl font-bold text-white mb-6 flex items-center group">
+                <div className="bg-gradient-to-br from-orange-500 to-red-500 p-2.5 rounded-xl mr-3 group-hover:scale-110 transition-transform duration-300">
+                  <Upload className="w-6 h-6 text-white" />
                 </div>
                 <span className="bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">
                   Archivos e Instrucciones
                 </span>
               </h2>
-              <div className="space-y-8">
+              <div className="space-y-6">
                 <div className="group">
-                  <label htmlFor="archivos" className="block text-sm font-semibold text-gray-300 mb-4 group-hover:text-white transition-colors duration-300">
+                  <label htmlFor="archivos" className="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-white transition-colors duration-300">
                     Archivos a traducir
                   </label>
-                  <div className="border-2 border-dashed border-gray-600/50 rounded-2xl p-8 hover:border-purple-400/70 transition-all duration-500 bg-gray-700/20 hover:bg-gray-700/30 group">
+                  <div className="border-2 border-dashed border-gray-600/50 rounded-2xl p-6 hover:border-purple-400/70 transition-all duration-500 bg-gray-700/20 hover:bg-gray-700/30 group">
                     <input
                       type="file"
                       id="archivos"
@@ -659,18 +659,18 @@ function App() {
                       className="w-full text-gray-300 file:mr-4 file:py-3 file:px-6 file:rounded-full file:border-0 file:text-sm file:font-medium file:bg-gradient-to-r file:from-purple-500 file:to-pink-500 file:text-white hover:file:from-purple-600 hover:file:to-pink-600 file:transition-all file:duration-300 file:cursor-pointer file:shadow-lg"
                       accept=".pdf,.doc,.docx,.txt,.ppt,.pptx,.xls,.xlsx,.jpg,.jpeg,.png,.gif,.svg,.webp"
                     />
-                    <p className="text-sm text-gray-400 mt-4 group-hover:text-gray-300 transition-colors duration-300">
+                    <p className="text-sm text-gray-400 mt-3 group-hover:text-gray-300 transition-colors duration-300">
                       📎 Formatos aceptados: PDF, Word, PowerPoint, Excel, TXT, JPG, PNG, GIF, SVG, WebP
                     </p>
                     {formData.archivos.length > 0 && (
-                      <div className="mt-6 animate-fade-in">
-                        <p className="text-sm font-semibold text-gray-200 mb-3 flex items-center">
+                      <div className="mt-4 animate-fade-in">
+                        <p className="text-sm font-semibold text-gray-200 mb-2 flex items-center">
                           <CheckCircle className="w-4 h-4 mr-2 text-green-400" />
                           Archivos seleccionados:
                         </p>
-                        <ul className="space-y-2">
+                        <ul className="space-y-1.5">
                           {formData.archivos.map((file, index) => (
-                            <li key={index} className="flex items-center bg-gray-700/50 rounded-lg p-3 hover:bg-gray-700/70 transition-colors duration-300">
+                            <li key={index} className="flex items-center bg-gray-700/50 rounded-lg p-2.5 hover:bg-gray-700/70 transition-colors duration-300">
                               <FileText className="w-5 h-5 mr-3 text-blue-400" />
                               <span className="text-gray-200 font-medium">{file.name}</span>
                               <span className="text-gray-400 text-sm ml-auto">
@@ -685,7 +685,7 @@ function App() {
                 </div>
 
                 <div className="group">
-                  <label htmlFor="instrucciones" className="block text-sm font-semibold text-gray-300 mb-4 group-hover:text-white transition-colors duration-300 flex items-center">
+                  <label htmlFor="instrucciones" className="block text-sm font-semibold text-gray-300 mb-3 group-hover:text-white transition-colors duration-300 flex items-center">
                     <MessageSquare className="w-4 h-4 mr-2 text-yellow-400" />
                     Instrucciones especiales
                   </label>
@@ -697,7 +697,7 @@ function App() {
                     onFocus={() => setFocusedField('instrucciones')}
                     onBlur={() => setFocusedField(null)}
                     rows={5}
-                    className={`w-full px-6 py-4 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white placeholder-gray-400 resize-none hover:bg-gray-700/70 backdrop-blur-sm ${
+                    className={`w-full px-5 py-3 bg-gray-700/50 border-2 border-gray-600/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-400 transition-all duration-300 text-white placeholder-gray-400 resize-none hover:bg-gray-700/70 backdrop-blur-sm ${
                       focusedField === 'instrucciones' ? 'shadow-lg shadow-purple-500/20 transform scale-105' : ''
                     }`}
                     placeholder="Describe cualquier instrucción especial, contexto o preferencias para la traducción..."
@@ -708,7 +708,7 @@ function App() {
 
             {/* Mensaje de estado */}
             {submitStatus && (
-              <div className={`p-6 rounded-2xl border-2 animate-fade-in ${submitStatus === 'success' 
+              <div className={`p-5 rounded-2xl border-2 animate-fade-in ${submitStatus === 'success' 
                 ? 'bg-gradient-to-r from-green-500/10 to-emerald-500/10 text-green-300 border-green-500/30 shadow-lg shadow-green-500/20' 
                 : 'bg-gradient-to-r from-red-500/10 to-pink-500/10 text-red-300 border-red-500/30 shadow-lg shadow-red-500/20'
               }`}>
@@ -724,21 +724,21 @@ function App() {
             )}
 
             {/* Botón de envío */}
-            <div className="pt-8">
+            <div className="pt-6">
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 text-white py-6 px-8 rounded-2xl font-bold text-xl hover:from-purple-700 hover:via-indigo-700 hover:to-blue-700 focus:ring-4 focus:ring-purple-500/30 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-2xl hover:shadow-purple-500/25 transform hover:scale-105 hover:-translate-y-1 group relative overflow-hidden"
+                className="w-full bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 text-white py-5 px-6 rounded-2xl font-bold text-lg hover:from-purple-700 hover:via-indigo-700 hover:to-blue-700 focus:ring-4 focus:ring-purple-500/30 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-2xl hover:shadow-purple-500/25 transform hover:scale-105 hover:-translate-y-1 group relative overflow-hidden"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                 {isSubmitting ? (
                   <>
-                    <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-3"></div>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
                     <span className="relative z-10">Generando enlace de pago...</span>
                   </>
                 ) : (
                   <>
-                    <Send className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform duration-300" />
+                    <Send className="w-5 h-5 mr-3 group-hover:rotate-12 transition-transform duration-300" />
                     <span className="relative z-10">Proceder al Pago</span>
                   </>
                 )}
@@ -748,11 +748,11 @@ function App() {
         </div>
 
         {/* Footer */}
-        <div className="text-center mt-12 animate-fade-in-up delay-500">
-          <p className="text-gray-300 text-xl font-light">
+        <div className="text-center mt-10 animate-fade-in-up delay-500">
+          <p className="text-gray-300 text-lg font-light">
             ⚡ Recibirás una respuesta en minutos
           </p>
-          <div className="flex justify-center mt-4 space-x-2">
+          <div className="flex justify-center mt-3 space-x-2">
             <div className="h-2 w-2 bg-blue-400 rounded-full animate-pulse"></div>
             <div className="h-2 w-2 bg-purple-400 rounded-full animate-pulse delay-100"></div>
             <div className="h-2 w-2 bg-pink-400 rounded-full animate-pulse delay-200"></div>
@@ -765,10 +765,10 @@ function App() {
         <div className="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center animate-fade-in">
           <div className="text-center animate-fade-in-up">
             {/* Logo animado */}
-            <div className="flex justify-center mb-8">
+            <div className="flex justify-center mb-6">
               <div className="relative">
-                <div className="bg-gradient-to-br from-purple-500 via-blue-500 to-indigo-500 p-8 rounded-full shadow-2xl animate-pulse">
-                  <Globe className="w-16 h-16 text-white drop-shadow-lg animate-spin" style={{ animationDuration: '3s' }} />
+                <div className="bg-gradient-to-br from-purple-500 via-blue-500 to-indigo-500 p-6 rounded-full shadow-2xl animate-pulse">
+                  <Globe className="w-12 h-12 text-white drop-shadow-lg animate-spin" style={{ animationDuration: '3s' }} />
                 </div>
                 {/* Anillos animados */}
                 <div className="absolute inset-0 border-4 border-purple-400/30 rounded-full animate-ping"></div>
@@ -777,15 +777,15 @@ function App() {
             </div>
             
             {/* Texto de carga */}
-            <h2 className="text-4xl font-bold text-white mb-4 animate-pulse">
+            <h2 className="text-3xl font-bold text-white mb-3 animate-pulse">
               Procesando tu solicitud
             </h2>
-            <p className="text-xl text-gray-300 mb-8 animate-fade-in delay-500">
+            <p className="text-lg text-gray-300 mb-6 animate-fade-in delay-500">
               Generando enlace de pago personalizado...
             </p>
             
             {/* Barra de progreso animada */}
-            <div className="w-80 bg-gray-700/50 rounded-full h-3 mx-auto mb-6 overflow-hidden">
+            <div className="w-72 bg-gray-700/50 rounded-full h-2.5 mx-auto mb-5 overflow-hidden">
               <div className="h-full bg-gradient-to-r from-purple-500 via-blue-500 to-indigo-500 rounded-full animate-pulse" 
                    style={{ animation: 'loading-bar 2s ease-in-out infinite' }}>
               </div>
