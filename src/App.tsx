@@ -97,12 +97,16 @@ function App() {
     const numeroHojas = parseInt(formData.numero_hojas) || 0;
     const tipoSeleccionado = tiposDocumento.find(tipo => tipo.value === formData.tipo_documento);
     if (tipoSeleccionado && numeroHojas > 0) {
-      return numeroHojas * tipoSeleccionado.precio;
+      const subtotal = numeroHojas * tipoSeleccionado.precio;
+      const esUrgente = formData.tiempo_procesamiento === 'urgente';
+      return esUrgente ? Math.round(subtotal * 1.5) : subtotal;
     }
     return 0;
   };
 
   const total = calcularTotal();
+  const esUrgente = formData.tiempo_procesamiento === 'urgente';
+  const subtotal = total / (esUrgente ? 1.5 : 1);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -584,8 +588,13 @@ function App() {
                           <div>
                             <h3 className="text-xl font-bold text-emerald-400 mb-1">Total Estimado</h3>
                             <p className="text-gray-300 text-sm">
-                              {formData.numero_hojas} hojas × ${tiposDocumento.find(t => t.value === formData.tipo_documento)?.precio || 0}/hoja
+                              {formData.numero_hojas} hojas × ${tiposDocumento.find(t => t.value === formData.tipo_documento)?.precio || 0}/hoja = ${Math.round(subtotal)}
                             </p>
+                            {esUrgente && (
+                              <p className="text-orange-300 text-sm font-medium">
+                                🚀 Recargo urgente (+50%): +${Math.round(subtotal * 0.5)}
+                              </p>
+                            )}
                           </div>
                         </div>
                         <div className="text-right">
@@ -593,6 +602,11 @@ function App() {
                             ${total}
                           </div>
                           <p className="text-gray-400 text-sm">USD</p>
+                          {esUrgente && (
+                            <p className="text-orange-400 text-xs font-medium">
+                              ⚡ Urgente
+                            </p>
+                          )}
                         </div>
                       </div>
                     </div>
