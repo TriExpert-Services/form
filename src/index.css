@@ -94,6 +94,18 @@
   .delay-1000 {
     animation-delay: 1000ms;
   }
+
+  @keyframes loading-bar {
+    0% {
+      transform: translateX(-100%);
+    }
+    50% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
 }
 
 /* Scrollbar styling */

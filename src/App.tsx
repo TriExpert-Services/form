@@ -684,12 +684,12 @@ function App() {
                 {isSubmitting ? (
                   <>
                     <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-3"></div>
-                    <span className="relative z-10">Procesando solicitud...</span>
+                    <span className="relative z-10">Generando enlace de pago...</span>
                   </>
                 ) : (
                   <>
                     <Send className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform duration-300" />
-                    <span className="relative z-10">Enviar Solicitud de Traducción</span>
+                    <span className="relative z-10">Proceder al Pago</span>
                   </>
                 )}
               </button>
@@ -709,6 +709,56 @@ function App() {
           </div>
         </div>
       </div>
+
+      {/* Pantalla de Carga Completa */}
+      {isSubmitting && (
+        <div className="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center animate-fade-in">
+          <div className="text-center animate-fade-in-up">
+            {/* Logo animado */}
+            <div className="flex justify-center mb-8">
+              <div className="relative">
+                <div className="bg-gradient-to-br from-purple-500 via-blue-500 to-indigo-500 p-8 rounded-full shadow-2xl animate-pulse">
+                  <Globe className="w-16 h-16 text-white drop-shadow-lg animate-spin" style={{ animationDuration: '3s' }} />
+                </div>
+                {/* Anillos animados */}
+                <div className="absolute inset-0 border-4 border-purple-400/30 rounded-full animate-ping"></div>
+                <div className="absolute inset-2 border-2 border-blue-400/50 rounded-full animate-pulse"></div>
+              </div>
+            </div>
+            
+            {/* Texto de carga */}
+            <h2 className="text-4xl font-bold text-white mb-4 animate-pulse">
+              Procesando tu solicitud
+            </h2>
+            <p className="text-xl text-gray-300 mb-8 animate-fade-in delay-500">
+              Generando enlace de pago personalizado...
+            </p>
+            
+            {/* Barra de progreso animada */}
+            <div className="w-80 bg-gray-700/50 rounded-full h-3 mx-auto mb-6 overflow-hidden">
+              <div className="h-full bg-gradient-to-r from-purple-500 via-blue-500 to-indigo-500 rounded-full animate-pulse" 
+                   style={{ animation: 'loading-bar 2s ease-in-out infinite' }}>
+              </div>
+            </div>
+            
+            {/* Indicadores de paso */}
+            <div className="flex justify-center space-x-4 text-sm text-gray-400">
+              <div className="flex items-center animate-fade-in">
+                <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
+                Solicitud recibida
+              </div>
+              <div className="flex items-center animate-fade-in delay-300">
+                <div className="w-2 h-2 bg-yellow-400 rounded-full mr-2 animate-pulse"></div>
+                Calculando cotización
+              </div>
+              <div className="flex items-center animate-fade-in delay-500">
+                <div className="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse"></div>
+                Generando pago
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
