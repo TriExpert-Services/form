@@ -2,28 +2,6 @@ import React, { useState } from 'react';
 import { Send, Upload, Calendar, Globe, Phone, Mail, Clock, FileText, MessageSquare, User, CheckCircle, AlertCircle } from 'lucide-react';
 import { supabase } from './lib/supabase';
 
-// Debug mode for development
-const DEBUG = import.meta.env.DEV;
-
-// Environment check for production debug
-const ENV_CHECK = {
-  SUPABASE_URL: import.meta.env.VITE_SUPABASE_URL,
-  SUPABASE_ANON_KEY: import.meta.env.VITE_SUPABASE_ANON_KEY ? 'SET' : 'NOT SET',
-  MODE: import.meta.env.MODE,
-  DEV: import.meta.env.DEV,
-  PROD: import.meta.env.PROD
-};
-
-// Log function for debugging
-const debugLog = (...args: any[]) => {
-  if (DEBUG) {
-    console.log('[DEBUG]', ...args);
-  } else {
-    // Always log environment in production for debugging
-    console.log('[PROD DEBUG]', ...args);
-  }
-};
-
 interface FormData {
   nombre: string;
   telefono: string;
@@ -59,27 +37,6 @@ function App() {
   const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null);
   const [submitMessage, setSubmitMessage] = useState('');
   const [focusedField, setFocusedField] = useState<string | null>(null);
-
-  // Component mount debug
-  React.useEffect(() => {
-    debugLog('App component mounted');
-    console.log('[ENV CHECK]', ENV_CHECK);
-    
-    // Check if Supabase variables are missing
-    if (!import.meta.env.VITE_SUPABASE_URL) {
-      console.error('❌ VITE_SUPABASE_URL is not set!');
-    }
-    if (!import.meta.env.VITE_SUPABASE_ANON_KEY) {
-      console.error('❌ VITE_SUPABASE_ANON_KEY is not set!');
-    }
-    
-    debugLog('Supabase client initialization check...');
-    try {
-      debugLog('Supabase client created successfully');
-    } catch (error) {
-      console.error('❌ Supabase client creation failed:', error);
-    }
-  }, []);
 
   const idiomas = [
     { value: 'es', label: 'Español', flag: '🇪🇸' },

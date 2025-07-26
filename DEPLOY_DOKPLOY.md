@@ -10,29 +10,14 @@ Esta guía te ayudará a desplegar la aplicación de **Solicitudes de Traducció
 
 ## 🔧 Configuración Previa
 
-### 1. ⚠️ **CRÍTICO - Variables de Entorno**
+### 1. Variables de Entorno Requeridas
 
-**🚨 IMPORTANTE:** Debes configurar estas variables EN DOKPLOY **ANTES** del deploy:
+En Dokploy, configura estas variables de entorno:
 
 ```bash
-# Variables requeridas (reemplaza con tus valores reales):
 NODE_ENV=production
-VITE_SUPABASE_URL=https://abcdefg.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...
-```
-
-**🔍 Cómo verificar que funcionó:**
-En los logs de build debes ver:
-```
-🔍 VARIABLES DE ENTORNO DURANTE BUILD:
-VITE_SUPABASE_URL: https://abcdefg.supabase.co  ← ✅ DEBE TENER VALOR
-VITE_SUPABASE_ANON_KEY length: 234              ← ✅ DEBE SER > 100
-```
-
-**❌ Si ves esto en los logs = PROBLEMA:**
-```
-VITE_SUPABASE_URL:                               ← ❌ VACÍO
-VITE_SUPABASE_ANON_KEY length: 1                ← ❌ MUY CORTO
+VITE_SUPABASE_URL=tu_supabase_url_aqui
+VITE_SUPABASE_ANON_KEY=tu_supabase_anon_key_aqui
 ```
 
 ### 2. Configuración de Supabase
@@ -64,93 +49,31 @@ Asegúrate de tener:
    Dockerfile: Dockerfile
    ```
 
-### Paso 3: ⚠️ **CRÍTICO - Configurar Variables ANTES del Deploy**
+### Paso 3: Configuración de la Aplicación
 
-**🚨 IMPORTANTE:** Las variables deben configurarse **ANTES** de hacer build/deploy.
-
-1. **Ve a tu aplicación en Dokploy**
-2. **Haz clic en "Environment"**
-3. **Agrega EXACTAMENTE estas variables:**
-   ```
-   Nombre: NODE_ENV
-   Valor: production
-   
-   Nombre: VITE_SUPABASE_URL  
-   Valor: https://tu-proyecto-real.supabase.co
-   
-   Nombre: VITE_SUPABASE_ANON_KEY
-   Valor: tu_clave_completa_real_aqui
-   ```
-
-4. **Configurar Puerto:**
+1. **Configurar Puerto:**
    ```
    Port: 80
    ```
 
-### Paso 4: Deploy y Verificar
-
-1. **Haz clic en "Deploy"**
-2. **⚠️ MONITOREA LOS LOGS** durante el build
-3. **Busca esta sección en los logs:**
+2. **Agregar Variables de Entorno:**
    ```
-   🔍 VARIABLES DE ENTORNO DURANTE BUILD:
-   VITE_SUPABASE_URL: https://abcdefg.supabase.co  ← ✅ DEBE APARECER TU URL
-   VITE_SUPABASE_ANON_KEY length: 234              ← ✅ DEBE SER > 100
-   NODE_ENV: production                             ← ✅ DEBE SER production
+   NODE_ENV=production
+   VITE_SUPABASE_URL=https://tu-proyecto.supabase.co
+   VITE_SUPABASE_ANON_KEY=tu_clave_publica_supabase
    ```
 
-4. **Si las variables aparecen vacías:**
-   - ❌ **Para el deploy**
-   - 🔧 **Configura las variables**
-   - 🔄 **Redeploy**
+### Paso 4: Configurar Dominio (Opcional)
 
-### Paso 5: Verificar en Browser
-
-1. **Abre la aplicación**
-2. **F12 > Console**
-3. **Busca:**
+1. **En la sección "Domains":**
    ```
-   [ENV CHECK] { SUPABASE_URL: "https://..." }  ← ✅ DEBE TENER VALOR
-   ```
-4. **Si ves `undefined`:**
-   - Variables mal configuradas
-   - Redeploy necesario
-
-## 🚨 **Troubleshooting Pantalla en Blanco**
-
-### **Si ves pantalla en blanco:**
-**🚨 Si no se configuran las variables ANTES del build, tendrás pantalla en blanco.**
-1. **Verifica las variables en el build log:**
-   ```
-   Building with VITE_SUPABASE_URL: undefined  ← ❌ MAL
-   Building with VITE_SUPABASE_URL: https://... ← ✅ BIEN
+   Domain: tu-dominio.com
    ```
 
-2. **En el browser, abre DevTools > Console:**
-   ```
-   [ENV CHECK] { SUPABASE_URL: undefined }     ← ❌ MAL
-   [ENV CHECK] { SUPABASE_URL: "https://..." } ← ✅ BIEN
-   ```
-**Debug si hay problemas:**
-3. **Si las variables están undefined:**
-   - Configura las variables en Dokploy
-   - **Redeploy** completamente (no solo restart)
-1. Ver logs del build en Dokploy
-### **Script de Debug Local:**
-```bash
-# Descargar y usar script de debug
-chmod +x docker-debug.sh
-export VITE_SUPABASE_URL="tu_url"
-export VITE_SUPABASE_ANON_KEY="tu_key"
-./docker-debug.sh
-```
-3. Usar [DEBUG_DOCKER.md](./DEBUG_DOCKER.md) para troubleshooting
-   ```
-### Paso 6: Configurar Dominio (Opcional)
-   ```
-
-2. **Verificar Build Args (automático):**
+2. **SSL/TLS:** No configurar certificado SSL en Dokploy
    - ✅ **Cloudflare maneja todo el SSL** automáticamente
+   - ✅ **Certificado gratuito** incluido en Cloudflare
+   - ✅ **Renovación automática**
 
 ### Paso 5: Deploy
 
