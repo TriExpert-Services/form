@@ -184,6 +184,12 @@ function App() {
 
       if (supabaseError) {
         console.error('Error de Supabase:', supabaseError);
+        
+        // Si es un error de RLS, mostrar mensaje más específico
+        if (supabaseError.message.includes('row-level security policy')) {
+          throw new Error('Error de configuración en la base de datos. Por favor contacta al administrador para configurar las políticas de seguridad.');
+        }
+        
         throw new Error(`Error al guardar en base de datos: ${supabaseError.message}`);
       }
 

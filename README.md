@@ -142,6 +142,13 @@ ON solicitudes_traduccion
 FOR INSERT
 TO anon, authenticated
 WITH CHECK (true);
+
+-- Política para permitir lectura (opcional, para consultas futuras)
+CREATE POLICY "Permitir leer solicitudes"
+ON solicitudes_traduccion
+FOR SELECT
+TO anon, authenticated
+USING (true);
 ```
 
 ## 🔗 Integración n8n
