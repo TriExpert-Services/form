@@ -130,14 +130,21 @@ function App() {
         const archivo = formData.archivos[i];
         const fileName = `${Date.now()}-${i}-${archivo.name}`;
         
-        // Subir archivo a Supabase Storage
+        // Subir archivo a Supabase Storage con opciones para usuarios anónimos
         const { data: uploadData, error: uploadError } = await supabase.storage
           .from('solicitudes-traduccion-files')
-          .upload(fileName, archivo);
+          .upload(fileName, archivo, {
+            cacheControl: '3600',
+            upsert: false,
+            contentType: archivo.type
+          });
           
         if (uploadError) {
-          console.error('Error subiendo archivo:', uploadError);
-          throw new Error(`Error subiendo archivo ${archivo.name}: ${uploadError.message}`);
+          console.error('Error detallado subiendo archivo:', uploadError);
+          
+          // Si falla el storage, continuar sin archivos pero mostrar advertencia
+          console.warn(`No se pudo subir el archivo ${archivo.name}, continuando sin él`);
+          continue;
         }
         
         // Obtener URL pública

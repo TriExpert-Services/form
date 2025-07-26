@@ -106,9 +106,29 @@ CREATE TABLE solicitudes_traduccion (
 
 ### 2. Crear Storage Bucket
 ```sql
--- Crear bucket para archivos
-INSERT INTO storage.buckets (id, name, public)
-VALUES ('solicitudes-traduccion-files', 'solicitudes-traduccion-files', true);
+-- Crear bucket para archivos (público para permitir acceso anónimo)
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES (
+  'solicitudes-traduccion-files', 
+  'solicitudes-traduccion-files', 
+  true,
+  10485760, -- 10MB limit
+  ARRAY['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain']
+);
+
+-- Política de storage para permitir upload anónimo
+CREATE POLICY "Allow anonymous uploads"
+ON storage.objects
+FOR INSERT
+TO anon
+WITH CHECK (bucket_id = 'solicitudes-traduccion-files');
+
+-- Política de storage para permitir lectura pública
+CREATE POLICY "Allow public read"
+ON storage.objects
+FOR SELECT
+TO anon, authenticated
+USING (bucket_id = 'solicitudes-traduccion-files');
 ```
 
 ### 3. Configurar Políticas RLS
