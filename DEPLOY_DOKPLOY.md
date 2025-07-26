@@ -10,14 +10,29 @@ Esta guía te ayudará a desplegar la aplicación de **Solicitudes de Traducció
 
 ## 🔧 Configuración Previa
 
-### 1. Variables de Entorno Requeridas
+### 1. ⚠️ **CRÍTICO - Variables de Entorno**
 
-En Dokploy, configura estas variables de entorno:
+**🚨 IMPORTANTE:** Debes configurar estas variables EN DOKPLOY **ANTES** del deploy:
 
 ```bash
+# Variables requeridas (reemplaza con tus valores reales):
 NODE_ENV=production
-VITE_SUPABASE_URL=tu_supabase_url_aqui
-VITE_SUPABASE_ANON_KEY=tu_supabase_anon_key_aqui
+VITE_SUPABASE_URL=https://abcdefg.supabase.co
+VITE_SUPABASE_ANON_KEY=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...
+```
+
+**🔍 Cómo verificar que funcionó:**
+En los logs de build debes ver:
+```
+🔍 VARIABLES DE ENTORNO DURANTE BUILD:
+VITE_SUPABASE_URL: https://abcdefg.supabase.co  ← ✅ DEBE TENER VALOR
+VITE_SUPABASE_ANON_KEY length: 234              ← ✅ DEBE SER > 100
+```
+
+**❌ Si ves esto en los logs = PROBLEMA:**
+```
+VITE_SUPABASE_URL:                               ← ❌ VACÍO
+VITE_SUPABASE_ANON_KEY length: 1                ← ❌ MUY CORTO
 ```
 
 ### 2. Configuración de Supabase
@@ -52,29 +67,54 @@ Asegúrate de tener:
 ### Paso 3: ⚠️ **CRÍTICO - Configurar Variables ANTES del Deploy**
 
 **🚨 IMPORTANTE:** Las variables deben configurarse **ANTES** de hacer build/deploy.
-1. **Configurar Puerto:**
+
+1. **Ve a tu aplicación en Dokploy**
+2. **Haz clic en "Environment"**
+3. **Agrega EXACTAMENTE estas variables:**
+   ```
+   Nombre: NODE_ENV
+   Valor: production
+   
+   Nombre: VITE_SUPABASE_URL  
+   Valor: https://tu-proyecto-real.supabase.co
+   
+   Nombre: VITE_SUPABASE_ANON_KEY
+   Valor: tu_clave_completa_real_aqui
+   ```
+
+4. **Configurar Puerto:**
    ```
    Port: 80
    ```
 
-2. **Agregar Variables de Entorno:**
+### Paso 4: Deploy y Verificar
+
+1. **Haz clic en "Deploy"**
+2. **⚠️ MONITOREA LOS LOGS** durante el build
+3. **Busca esta sección en los logs:**
    ```
-   NODE_ENV=production
-   VITE_SUPABASE_URL=https://tu-proyecto.supabase.co
-   VITE_SUPABASE_URL: ${VITE_SUPABASE_URL}
-   VITE_SUPABASE_ANON_KEY: ${VITE_SUPABASE_ANON_KEY}
-   NODE_ENV: production
+   🔍 VARIABLES DE ENTORNO DURANTE BUILD:
+   VITE_SUPABASE_URL: https://abcdefg.supabase.co  ← ✅ DEBE APARECER TU URL
+   VITE_SUPABASE_ANON_KEY length: 234              ← ✅ DEBE SER > 100
+   NODE_ENV: production                             ← ✅ DEBE SER production
    ```
 
-### Paso 5: Deploy y Debug
-### Paso 3.5: ⚠️ **IMPORTANTE - Evitar Pantalla en Blanco**
-1. **Haz clic en "Deploy"**
-2. **Monitorea los logs del build** 
-3. **Busca estas líneas en los logs:**
+4. **Si las variables aparecen vacías:**
+   - ❌ **Para el deploy**
+   - 🔧 **Configura las variables**
+   - 🔄 **Redeploy**
+
+### Paso 5: Verificar en Browser
+
+1. **Abre la aplicación**
+2. **F12 > Console**
+3. **Busca:**
    ```
-   Building with VITE_SUPABASE_URL: https://...
-   Building with NODE_ENV: production
+   [ENV CHECK] { SUPABASE_URL: "https://..." }  ← ✅ DEBE TENER VALOR
    ```
+4. **Si ves `undefined`:**
+   - Variables mal configuradas
+   - Redeploy necesario
 
 ## 🚨 **Troubleshooting Pantalla en Blanco**
 

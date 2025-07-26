@@ -1,5 +1,5 @@
 {
-  "name": "solicitudes-traduccion",
+  "name": "form-translation",
   "type": "application",
   "buildPath": "./",
   "dockerfile": "Dockerfile",
@@ -9,6 +9,11 @@
     "VITE_SUPABASE_ANON_KEY": "${VITE_SUPABASE_ANON_KEY}",
     "NODE_ENV": "production"
   },
+  "env": {
+    "NODE_ENV": "production",
+    "VITE_SUPABASE_URL": "${VITE_SUPABASE_URL}",
+    "VITE_SUPABASE_ANON_KEY": "${VITE_SUPABASE_ANON_KEY}"
+  },
   "healthCheck": {
     "enabled": true,
     "path": "/health",
@@ -16,11 +21,8 @@
     "timeout": 10,
     "retries": 3
   },
-  "env": {
-    "NODE_ENV": "production"
-  },
   "resources": {
-    "memory": "512Mi",
-    "cpu": "250m"
+    "memory": "1Gi",
+    "cpu": "500m"
   }
 }
