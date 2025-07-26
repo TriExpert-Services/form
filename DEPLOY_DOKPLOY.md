@@ -49,8 +49,9 @@ Asegúrate de tener:
    Dockerfile: Dockerfile
    ```
 
-### Paso 3: Configuración de la Aplicación
+### Paso 3: ⚠️ **CRÍTICO - Configurar Variables ANTES del Deploy**
 
+**🚨 IMPORTANTE:** Las variables deben configurarse **ANTES** de hacer build/deploy.
 1. **Configurar Puerto:**
    ```
    Port: 80
@@ -60,37 +61,56 @@ Asegúrate de tener:
    ```
    NODE_ENV=production
    VITE_SUPABASE_URL=https://tu-proyecto.supabase.co
-   VITE_SUPABASE_ANON_KEY=tu_clave_publica_supabase
+   VITE_SUPABASE_URL: ${VITE_SUPABASE_URL}
+   VITE_SUPABASE_ANON_KEY: ${VITE_SUPABASE_ANON_KEY}
+   NODE_ENV: production
    ```
 
+### Paso 5: Deploy y Debug
 ### Paso 3.5: ⚠️ **IMPORTANTE - Evitar Pantalla en Blanco**
+1. **Haz clic en "Deploy"**
+2. **Monitorea los logs del build** 
+3. **Busca estas líneas en los logs:**
+   ```
+   Building with VITE_SUPABASE_URL: https://...
+   Building with NODE_ENV: production
+   ```
 
-**Variables DEBEN estar configuradas ANTES del deploy:**
-```bash
-# ✅ REQUERIDO en Dokploy Environment Variables:
-VITE_SUPABASE_URL=https://tu-proyecto.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...
-NODE_ENV=production
-```
+## 🚨 **Troubleshooting Pantalla en Blanco**
 
+### **Si ves pantalla en blanco:**
 **🚨 Si no se configuran las variables ANTES del build, tendrás pantalla en blanco.**
+1. **Verifica las variables en el build log:**
+   ```
+   Building with VITE_SUPABASE_URL: undefined  ← ❌ MAL
+   Building with VITE_SUPABASE_URL: https://... ← ✅ BIEN
+   ```
 
+2. **En el browser, abre DevTools > Console:**
+   ```
+   [ENV CHECK] { SUPABASE_URL: undefined }     ← ❌ MAL
+   [ENV CHECK] { SUPABASE_URL: "https://..." } ← ✅ BIEN
+   ```
 **Debug si hay problemas:**
+3. **Si las variables están undefined:**
+   - Configura las variables en Dokploy
+   - **Redeploy** completamente (no solo restart)
 1. Ver logs del build en Dokploy
-2. Verificar que `dist/` se genera correctamente
+### **Script de Debug Local:**
+```bash
+# Descargar y usar script de debug
+chmod +x docker-debug.sh
+export VITE_SUPABASE_URL="tu_url"
+export VITE_SUPABASE_ANON_KEY="tu_key"
+./docker-debug.sh
+```
 3. Usar [DEBUG_DOCKER.md](./DEBUG_DOCKER.md) para troubleshooting
-
-### Paso 4: Configurar Dominio (Opcional)
-
-1. **En la sección "Domains":**
    ```
-   Domain: tu-dominio.com
+### Paso 6: Configurar Dominio (Opcional)
    ```
 
-2. **SSL/TLS:** No configurar certificado SSL en Dokploy
+2. **Verificar Build Args (automático):**
    - ✅ **Cloudflare maneja todo el SSL** automáticamente
-   - ✅ **Certificado gratuito** incluido en Cloudflare
-   - ✅ **Renovación automática**
 
 ### Paso 5: Deploy
 

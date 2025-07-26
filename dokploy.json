@@ -4,6 +4,11 @@
   "buildPath": "./",
   "dockerfile": "Dockerfile",
   "port": 80,
+  "buildArgs": {
+    "VITE_SUPABASE_URL": "${VITE_SUPABASE_URL}",
+    "VITE_SUPABASE_ANON_KEY": "${VITE_SUPABASE_ANON_KEY}",
+    "NODE_ENV": "production"
+  },
   "healthCheck": {
     "enabled": true,
     "path": "/health",
