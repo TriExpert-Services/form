@@ -2,6 +2,16 @@ import React, { useState } from 'react';
 import { Send, Upload, Calendar, Globe, Phone, Mail, Clock, FileText, MessageSquare, User, CheckCircle, AlertCircle } from 'lucide-react';
 import { supabase } from './lib/supabase';
 
+// Debug mode for development
+const DEBUG = import.meta.env.DEV;
+
+// Log function for debugging
+const debugLog = (...args: any[]) => {
+  if (DEBUG) {
+    console.log('[DEBUG]', ...args);
+  }
+};
+
 interface FormData {
   nombre: string;
   telefono: string;
@@ -37,6 +47,16 @@ function App() {
   const [submitStatus, setSubmitStatus] = useState<'success' | 'error' | null>(null);
   const [submitMessage, setSubmitMessage] = useState('');
   const [focusedField, setFocusedField] = useState<string | null>(null);
+
+  // Component mount debug
+  React.useEffect(() => {
+    debugLog('App component mounted');
+    debugLog('Environment:', {
+      NODE_ENV: import.meta.env.MODE,
+      SUPABASE_URL: import.meta.env.VITE_SUPABASE_URL ? 'SET' : 'NOT SET',
+      SUPABASE_ANON_KEY: import.meta.env.VITE_SUPABASE_ANON_KEY ? 'SET' : 'NOT SET'
+    });
+  }, []);
 
   const idiomas = [
     { value: 'es', label: 'Español', flag: '🇪🇸' },

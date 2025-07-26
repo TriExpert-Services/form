@@ -4,7 +4,18 @@
   "buildPath": "./",
   "dockerfile": "Dockerfile",
   "port": 80,
+  "healthCheck": {
+    "enabled": true,
+    "path": "/health",
+    "interval": 30,
+    "timeout": 10,
+    "retries": 3
+  },
   "env": {
     "NODE_ENV": "production"
+  },
+  "resources": {
+    "memory": "512Mi",
+    "cpu": "250m"
   }
 }

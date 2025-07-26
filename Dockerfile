@@ -1,31 +1,43 @@
 # Build stage
 FROM node:18-alpine AS builder
 
+# Set working directory
 WORKDIR /app
 
-# Copiar los archivos de dependencias
+# Copy package files
 COPY package*.json ./
 
-# Instalar TODAS las dependencias, incluidas las de desarrollo (necesarias para vite)
-RUN npm ci
+# Install dependencies (including dev dependencies needed for build)
+RUN npm ci --only=production=false
 
-# Copiar el resto del código fuente
+# Copy source code
 COPY . .
 
-# Ejecutar la build de Vite
+# Build the application
 RUN npm run build
 
 # Production stage
 FROM nginx:alpine
 
-# Copiar los archivos generados por Vite al directorio de Nginx
+# Remove default nginx config
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy built files from builder stage
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Copiar configuración personalizada de nginx (opcional)
+# Copy custom nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Exponer el puerto 80
+# Create nginx user and set permissions
+RUN chown -R nginx:nginx /usr/share/nginx/html && \
+    chmod -R 755 /usr/share/nginx/html
+
+# Add health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:80/ || exit 1
+
+# Expose port
 EXPOSE 80
 
-# Ejecutar nginx en primer plano
+# Start nginx
 CMD ["nginx", "-g", "daemon off;"]

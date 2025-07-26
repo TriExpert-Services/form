@@ -63,6 +63,23 @@ Asegúrate de tener:
    VITE_SUPABASE_ANON_KEY=tu_clave_publica_supabase
    ```
 
+### Paso 3.5: ⚠️ **IMPORTANTE - Evitar Pantalla en Blanco**
+
+**Variables DEBEN estar configuradas ANTES del deploy:**
+```bash
+# ✅ REQUERIDO en Dokploy Environment Variables:
+VITE_SUPABASE_URL=https://tu-proyecto.supabase.co
+VITE_SUPABASE_ANON_KEY=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...
+NODE_ENV=production
+```
+
+**🚨 Si no se configuran las variables ANTES del build, tendrás pantalla en blanco.**
+
+**Debug si hay problemas:**
+1. Ver logs del build en Dokploy
+2. Verificar que `dist/` se genera correctamente
+3. Usar [DEBUG_DOCKER.md](./DEBUG_DOCKER.md) para troubleshooting
+
 ### Paso 4: Configurar Dominio (Opcional)
 
 1. **En la sección "Domains":**
